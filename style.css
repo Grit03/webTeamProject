@@ -1,0 +1,86 @@
+@import url("reset.css");
+
+* {
+  box-sizing: border-box;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #202124;
+  align-items: center;
+}
+canvas {
+  background: #eee;
+  display: block;
+}
+.main {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#gameView {
+  width: 720px;
+  height: 720px;
+  display: flex;
+  position: absolute;
+}
+#playerInfo {
+  height: 720px;
+  width: 240px;
+  position: relative;
+}
+button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+.gameOver {
+  display: none;
+}
+.show {
+  position: absolute;
+  display: block;
+  z-index: 1;
+}
+.monsterHealthBar {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 150px;
+  left: 30px;
+  height: 30px;
+  width: 420px;
+  z-index: 1;
+  border-radius: 20px;
+  border: 4px solid black;
+}
+.monsterHealthBar::before {
+  position: absolute;
+  content: "";
+  left: -15px;
+  width: 35px;
+  height: 35px;
+  border: 4px solid black;
+  transform: rotate(45deg);
+  border-radius: 13px;
+  background-color: #202124;
+  z-index: 2;
+}
+.monsterHealthBar::after {
+  position: absolute;
+  content: "";
+  right: -15px;
+  width: 30px;
+  height: 25px;
+  border: 4px solid black;
+  border-radius: 50px;
+  background-color: #202124;
+}
+.monsterHealthBar__icon {
+  position: absolute;
+  z-index: 2;
+  width: 65px;
+  left: -27px;
+}
