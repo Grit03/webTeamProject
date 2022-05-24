@@ -2,20 +2,24 @@
 window.onload = function () {
   canvas = document.getElementById("myCanvas");
   ctx = canvas.getContext("2d");
-  x = canvas.width / 2;
+  x = canvas.width * 0.5;
   y = canvas.height - 30;
-  paddleX = (canvas.width - paddleWidth) / 2;
-  brickOffsetLeft = (canvas.width - brickWidth * 7) / 2;
+  paddleX = (canvas.width - paddleWidth) * 0.5;
+  brickOffsetLeft = (canvas.width - brickWidth * 7) * 0.5;
   // 몬스터 생명 게이지 객체
   monsterLifeGageBar = {
     width: 420,
     height: 30,
-    x: (canvas.width - 420) / 2,
+    x: (canvas.width - 420) * 0.5,
     y: 150,
     barBottomY: 180,
   };
   ctx.drawImage(background, 0, 0);
-  monsterObj = new monster("img/boss1.gif");
+  monster = new Monster("img/monsters/boss1.gif");
+  monster.monsterImage.addEventListener("load", function () {
+    monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
+    monster.y = 150 - monster.monsterImage.height;
+  });
 
   // 키보드 입력 처리
   document.addEventListener("keydown", keyDownHandler, false);
@@ -38,7 +42,7 @@ var rightPressed = false;
 var leftPressed = false;
 var timeId;
 var speed = 3 * Math.sqrt(2);
-var monsterObj;
+var monster;
 
 // 벽돌 관련 전역 함수
 var brickRowCount = 7;
@@ -57,26 +61,46 @@ var monsterLifeGageBar;
 
 // 배경
 var background = new Image();
-background.src = "./img/background1.png";
+background.src = "img/backgrounds/background1.png";
 
-// 이미지 객체 생성 함수
-function imageObj(src) {
-  this.x = 0;
-  this.y = 0;
-  this.img = new Image();
-  this.img.src = src;
+// 효과
+var effects = [];
+
+// 이미지 클래스
+class Item {
+  constructor(src) {
+    this.x = 0;
+    this.y = 0;
+    this.img = new Image();
+    this.img.src = src;
+  }
 }
 
-// 벽돌 객체 생성 함수
-function brick(statusValue) {
-  this.x = 0;
-  this.y = 0;
-  this.status = statusValue;
-  this.item = new imageObj("./img/exp.gif");
-  this.itemShow = function () {
+// 몬스터 클래스
+class Monster {
+  constructor(src) {
+    this.x = 0;
+    this.y = 0;
+    this.monsterImage = new Image();
+    this.monsterImage.src = src;
+  }
+  draw() {
+    ctx.drawImage(this.monsterImage, this.x, this.y);
+  }
+}
+
+// 벽돌 클래스
+class Brick {
+  constructor(statusValue) {
+    this.x = 0;
+    this.y = 0;
+    this.status = statusValue;
+    this.item = new Item("./img/items/exp.gif");
+  }
+  itemShow() {
     ctx.drawImage(this.item.img, this.item.x, this.item.y, 30, 30);
-  };
-  this.itemFall = function () {
+  }
+  itemFall() {
     if (this.item.y < canvas.height - paddleHeight) {
       this.itemShow();
       this.item.y += 3;
@@ -86,22 +110,42 @@ function brick(statusValue) {
       }
       this.item.y = 0;
     }
-  };
+  }
 }
 
-// 몬스터 생성 객체 함수
-function monster(src) {
-  this.monsterImage = new imageObj(src);
-  this.monsterImage.x = (canvas.width - this.monsterImage.img.width) / 2;
-  this.monsterImage.y = 150 - this.monsterImage.img.height;
-  this.draw = function () {
-    console.log(this.monsterImage.img.width);
+class Effect {
+  constructor(src) {
+    this.x = 0;
+    this.y = 0;
+    this.image = new Image();
+    this.image.src = src;
+    this.spriteWidth = 96;
+    this.spriteHeight = 96;
+    this.width = this.spriteWidth;
+    this.height = this.spriteHeight;
+    this.frame = 0;
+    this.timer = 0;
+  }
+  update() {
+    this.timer++;
+    if (this.timer % 3 == 0) {
+      this.frame++;
+    }
+  }
+  draw() {
+    console.log(this.x, this.y);
     ctx.drawImage(
-      this.monsterImage.img,
-      this.monsterImage.x,
-      this.monsterImage.y
+      this.image,
+      this.spriteWidth * this.frame,
+      0,
+      this.spriteWidth,
+      this.spriteHeight,
+      this.x,
+      this.y,
+      this.width,
+      this.height
     );
-  };
+  }
 }
 
 var bricks = [];
@@ -109,9 +153,9 @@ for (var c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for (var r = 0; r < brickRowCount; r++) {
     if (randomIndexArray.indexOf(r) > 0) {
-      bricks[c][r] = new brick(1);
+      bricks[c][r] = new Brick(1);
     } else {
-      bricks[c][r] = new brick(0);
+      bricks[c][r] = new Brick(0);
     }
   }
 }
@@ -151,10 +195,10 @@ function mouseMoveHandler(e) {
   var gap = document.getElementById("gameView");
   var relativeX = e.clientX - gap.offsetLeft;
   if (
-    relativeX >= paddleWidth / 2 &&
-    relativeX <= canvas.width - paddleWidth / 2
+    relativeX >= paddleWidth * 0.5 &&
+    relativeX <= canvas.width - paddleWidth * 0.5
   ) {
-    paddleX = relativeX - paddleWidth / 2;
+    paddleX = relativeX - paddleWidth * 0.5;
   }
 }
 
@@ -162,7 +206,7 @@ function mouseMoveHandler(e) {
 function collisionDetection() {
   if (y <= monsterLifeGageBar.barBottomY + ballRadius) {
     dy = -dy;
-    var bricksStartLocation = (canvas.width - brickWidth * 7) / 2;
+    var bricksStartLocation = (canvas.width - brickWidth * 7) * 0.5;
     // 벽돌 범위 내의 x 좌표를 가지는 바를 맞추면 몬스터 게이지 감소
     if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
     }
@@ -190,13 +234,21 @@ function collisionDetection() {
             x - (b.x + brickWidth) > Math.abs(y - b.y)
           )
         ) {
+          console.log("부딛힌 벽돌 좌표: " + b.x + b.y);
           //위나 아래서 올때
           dy = -dy;
           b.status = 0;
           score++;
 
+          // 아이템 위치 설정
           b.item.x = b.x + brickWidth * 0.25;
           b.item.y = b.y + brickHeight;
+
+          // 벽돌 깨짐 효과
+          var brickOutEffect = new Effect("img/effects/IceShatter_96x96.png");
+          brickOutEffect.x = b.x - (brickOutEffect.width - brickWidth) / 2;
+          brickOutEffect.y = b.y - (brickOutEffect.height - brickHeight) / 2;
+          effects.push(brickOutEffect);
 
           if (score == brickRowCount * brickColumnCount) {
             alert("YOU WIN, CONGRATS!");
@@ -213,11 +265,21 @@ function collisionDetection() {
           ((x >= b.x - ballRadius && x <= b.x) ||
             (x >= b.x + brickWidth && x <= b.x + brickWidth + ballRadius))
         ) {
+          console.log("부딛힌 벽돌 좌표: " + b.x + b.y);
           dx = -dx;
           b.status = 0;
           score++;
+
+          // 아이템 위치 설정
           b.item.x = b.x + brickWidth * 0.25;
           b.item.y = b.y + brickHeight;
+
+          // 벽돌 깨짐 효과
+          var brickOutEffect = new Effect("img/effects/IceShatter_96x96.png");
+          brickOutEffect.x = b.x - (brickOutEffect.width - brickWidth) / 2;
+          brickOutEffect.y = b.y - (brickOutEffect.height - brickHeight) / 2;
+          effects.push(brickOutEffect);
+
           if (score == brickRowCount * brickColumnCount) {
             alert("YOU WIN, CONGRATS!");
             document.location.reload();
@@ -280,9 +342,9 @@ function setBrickColumnCount() {
   bricks[brickColumnCount] = [];
   for (var r = 0; r < brickRowCount; r++) {
     if (randomIndexArray.indexOf(r) > 0) {
-      bricks[brickColumnCount][r] = new brick(1);
+      bricks[brickColumnCount][r] = new Brick(1);
     } else {
-      bricks[brickColumnCount][r] = new brick(0);
+      bricks[brickColumnCount][r] = new Brick(0);
     }
   }
   brickColumnCount++;
@@ -300,6 +362,17 @@ function drawMonsterLifeGage() {
   ctx.fillStyle = "#DC1C13";
   ctx.fill();
   ctx.closePath();
+}
+
+function drawEffects() {
+  for (var i = 0; i < effects.length; i++) {
+    effects[i].update();
+    effects[i].draw();
+    if (effects[i].frame > 49) {
+      effects.splice(i, 1);
+      i--;
+    }
+  }
 }
 
 // 점수 표시
@@ -326,13 +399,14 @@ function draw() {
   ctx.drawImage(background, 0, 0);
 
   drawMonsterLifeGage();
+  monster.draw();
   drawBricks();
   drawBall();
   drawPaddle();
   drawScore();
   drawLives();
-
   collisionDetection();
+  drawEffects();
 
   max = 0;
   for (c = 0; c < brickColumnCount; c++) {
@@ -361,8 +435,8 @@ function draw() {
   } else if (y >= canvas.height - ballRadius) {
     //정진우 수정-speed 변수 선언도 위에 있음
     if (x > paddleX && x < paddleX + paddleWidth) {
-      let collidePoint = x - (paddleX + paddleWidth / 2);
-      collidePoint = collidePoint / (paddleWidth / 2);
+      let collidePoint = x - (paddleX + paddleWidth * 0.5);
+      collidePoint = collidePoint / (paddleWidth * 0.5);
       let angle = collidePoint * (Math.PI / 3);
       dx = speed * Math.sin(angle);
       dy = speed * Math.cos(angle) * -1;
@@ -372,11 +446,11 @@ function draw() {
         drawGameOver();
         return;
       } else {
-        x = canvas.width / 2;
+        x = canvas.width * 0.5;
         y = canvas.height - 30;
         dx = 3;
         dy = -3;
-        paddleX = (canvas.width - paddleWidth) / 2;
+        paddleX = (canvas.width - paddleWidth) * 0.5;
       }
     }
   }
