@@ -2,20 +2,33 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Gamedev Canvas Workshop - lesson 10: finishing up</title>
+    <title>메이플스토리 벽돌 깨기 게임</title>
     <link rel="stylesheet" href="style.css" />
     <script src="play.js"></script>
   </head>
   <body>
-    <div class="main">
+    <div id="main">
       <div id="gameView">
+        <div id="nextGamePage" class="hide">
+          <button id="nextLevel" onclick="nextLevelBtnListener()">
+            
+          </button>
+        </div>
         <canvas id="myCanvas" width="480" height="720"></canvas>
         <div id="playerInfo" style="background-color: #a9a9a9">
           <button onclick="draw();">시작하기</button>
         </div>
-        <div class="gameOver">Game Over</div>
-        <div class="monsterHealthBar">
-          <img class="monsterHealthBar__icon" src="./img/monster.png" />
+        <div id="gameOver" class="hide">
+          <img src="img/gameoverBG/gameover2.png">
+          <button id = "btn1" onclick="menuBtnListener()" >
+          <button id = "btn2" onclick="restartBtnListener()" > 
+        </div>
+        <div id="monsterHealthBar">
+          <img id="monsterHealthBar__icon" src="./img/monster.png" />
+        </div>
+        <div id="game_win" class="hide">
+          <h1>게임승리</h1>
+          <button id="gamewin_home">GOHOME</button>
         </div>
       </div>
     </div>
