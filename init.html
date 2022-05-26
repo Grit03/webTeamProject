@@ -3,12 +3,144 @@
   <head>
     <meta charset="utf-8" />
     <title>메이플스토리 벽돌 깨기 게임</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="play.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/play.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/setting.js"></script>
+    <script src="js/game_start.js"></script>
+    <script src="js/game_winlose.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="main">
-      <div id="gameView">
+
+      <!-- 홈 화면 -->
+      <div id="home" class="gameView">
+        <img id="home_allage" src="img/logo/total_logo_edit.png" />
+        <img id="home_logo" src="img/logo/logo_maple_edit.png" />
+        <img id="home_brickout" src="img/logo/brickout2_edit.png" />
+        <img id="home_menu1" src="img/UI/buttons/wood1.png" />
+        <img id="home_menu2" src="img/UI/buttons/wood2.png" />
+        <img id="home_menu3" src="img/UI/buttons/wood3.png" />
+        <span id="home_menu1_span">게임시작</span>
+        <span id="home_menu2_span">게임설명</span>
+        <span id="home_menu3_span">게임설정</span>
+      </div>
+
+      <!-- 게임 레벨 선택 화면 -->
+      <div id="game_start" class="gameView hide">
+        <img id="gamestart_home" src="img/UI/buttons/back_img.png" />
+        <div id="gamestart_content"></div>
+        <img
+          id="intro_kind1"
+          src="img/monsters/intro_brownbear_edit.png"
+          class="intro_character_img v1"
+        />
+        <img
+          id="intro_kind2"
+          src="img/monsters/intro_duck_edit.png"
+          class="intro_character_img v1"
+        />
+        <img
+          id="intro_kind3"
+          src="img/monsters/intro_knight_edit.png"
+          class="intro_character_img v1"
+        />
+        <img
+          id="intro_kind4"
+          src="img/monsters/intro_panda_edit.png"
+          class="intro_character_img v1"
+        />
+        <img
+          id="intro_kind5"
+          src="img/monsters/intro_pinkbear_edit.png"
+          class="intro_character_img v1"
+        />
+        <img
+          id="intro_kind6"
+          src="img/monsters/intro_rabbit_edit.png"
+          class="intro_character_img v1"
+        />
+        <img
+          id="intro_villain1"
+          src="img/monsters/intro_villain1_edit.png"
+          class="intro_character_img v2"
+        />
+        <img
+          id="intro_villain2"
+          src="img/monsters/intro_villain2_edit.png"
+          class="intro_character_img v2"
+        />
+        <img
+          id="intro_villain3"
+          src="img/monsters/intro_villain3_edit (1).png"
+          class="intro_character_img v2"
+        />
+        <img
+          id="intro_villain4"
+          src="img/monsters/intro_villain4_edit.png"
+          class="intro_character_img v2"
+        />
+        <img
+          id="intro_villain5"
+          src="img/monsters/intro_villain5_edit.png"
+          class="intro_character_img v2"
+        />
+        <img
+          id="intro_villain6"
+          src="img/monsters/intro_villain6_edit.png"
+          class="intro_character_img v2"
+        />
+        <button id="level1" class="level_btn_class">level1</button>
+        <button id="level2" class="level_btn_class">level2</button>
+        <button id="level3" class="level_btn_class">level3</button>
+        <span id="story_telling">
+          스토리스토리스토리스토리스토리스토리스토리스토리<br />
+          스토리스토리스토리스토리스토리스토리스토리스토리<br />
+          스토리스토리스토리스토리스토리스토리스토리스토리<br
+        /></span>
+        <span id="level_choice_content">게임 난이도 선택</span>
+      </div>
+
+      <!-- 게임 설명 -->
+      <div id="explanation" class="gameView hide">
+        <img id="explanation_home" src="img/UI/buttons/back_img.png" />
+        <div id="explanation_content"></div>
+        <span id="explanation_span1" class="explanation_span">게임 조작</span>
+        <span id="explanation_span2" class="explanation_span">아이템</span>
+        <span id="explanation_span3" class="explanation_span">게임 승리</span>
+        <span id="explanation_span4" class="explanation_span">게임 패배</span>
+        <img
+          id="explanation_item1"
+          src="img/items/item_candy_edit.png"
+          width="90px"
+        />
+        <img id="explanation_item2" src="img/items/item_red_edit.png" width="90px" />
+        <img id="explanation_item3" src="img/items/item_blue_edit.png" width="90px" />
+        <span id="explanation_text1" class="item_content"
+          >게임방법게임방법<br />게임방법게임방법</span
+        >
+        <span id="explanation_text2" class="item_content"
+          >게임승리게임승리<br />게임승리게임승리</span
+        >
+        <span id="explanation_text3" class="item_content"
+          >게임패배게임패배<br />게임패배게임패배</span
+        >
+        <span id="item_content1" class="item_content"
+          >사탕<br />공의 크기를 증가</span
+        >
+        <span id="item_content2" class="item_content"
+          >빨간포션<br />체력을 +1 증가</span
+        >
+        <span id="item_content3" class="item_content"
+          >파란포션<br />이거 뭐였더라</span
+        >
+      </div>
+
+      <!-- 게임 화면 -->
+      <div class="game gameView hide">
         <div id="nextGamePage" class="hide">
           <button id="nextLevel" onclick="nextLevelBtnListener()">
             
@@ -16,7 +148,6 @@
         </div>
         <canvas id="myCanvas" width="480" height="720"></canvas>
         <div id="playerInfo" style="background-color: #a9a9a9">
-          <button onclick="draw();">시작하기</button>
         </div>
         <div id="gameOver" class="hide">
           <img src="img/gameoverBG/gameover2.png">
@@ -30,6 +161,93 @@
           <h1>게임승리</h1>
           <button id="gamewin_home">GOHOME</button>
         </div>
+      </div>
+
+      <!-- 게임 설정 -->
+      <div id="setting" class="gameView hide">
+        <img id="setting_home" src="img/UI/buttons/back_img.png" />
+
+        <div id="setting_content"></div>
+        <img id="maple1" class="maple_img" src="img/logo/maple_edit.png" />
+        <img id="maple2" class="maple_img" src="img/logo/maple_edit.png" />
+        <img id="maple3" class="maple_img" src="img/logo/maple_edit.png" />
+
+        <input
+          id="sound_on"
+          type="radio"
+          name="sound_onoff"
+          checked="checked"
+        />
+        <input id="sound_off" type="radio" name="sound_onoff" />
+        <span id="backsound_span">배경음악</span>
+        <label id="soundon_btn" for="sound_on">ON</label>
+        <label id="soundoff_btn" for="sound_off">OFF</label>
+
+        <input
+          id="backsound1"
+          type="radio"
+          name="background_sound"
+          checked="checked"
+        />
+        <input id="backsound2" type="radio" name="background_sound" />
+        <input id="backsound3" type="radio" name="background_sound" />
+        <label id="backsound1_btn" class="backClass" for="backsound1"
+          >Music1</label
+        >
+        <label id="backsound2_btn" class="backClass" for="backsound2"
+          >Music2</label
+        >
+        <label id="backsound3_btn" class="backClass" for="backsound3"
+          >Music3</label
+        >
+
+        <input id="thema1" type="radio" name="thema" checked="checked" />
+        <input id="thema2" type="radio" name="thema" />
+        <input id="thema3" type="radio" name="thema" />
+        <span id="thema_span">배경테마</span>
+        <label id="thema1_btn" for="thema1">
+          <img src="img/backgrounds/ludibrium1.jpg" width="70px" /><br />배경1</label
+        >
+        <label id="thema2_btn" for="thema2">
+          <img src="img/backgrounds/ludibrium2.jpg" width="70px" /><br />배경2</label
+        >
+        <label id="thema3_btn" for="thema3">
+          <img src="img/backgrounds/ludibrium3.jpg" width="70px" /><br />배경3</label
+        >
+
+        <input
+          id="character1"
+          type="radio"
+          name="character"
+          checked="checked"
+        />
+        <input id="character2" type="radio" name="character" />
+        <input id="character3" type="radio" name="character" />
+        <span id="character_span">캐릭터선택</span>
+        <label id="character1_btn" for="character1">
+          <img src="img/characters/character1_edit.png" width="60px" /><br />초보자</label
+        >
+        <label id="character2_btn" for="character2">
+          <img src="img/characters/character2_edit.png" width="60px" /><br />도적</label
+        >
+        <label id="character3_btn" for="character3">
+          <img src="img/characters/character3_edit.png" width="65px" /><br />마법사</label
+        >
+      </div>
+
+      <!-- 게임 승리 화면 -->
+      <div id="game_win" class="gameView hide">
+        <h1>게임승리</h1>
+        <button id="gamewin_home">GOHOME</button>
+      </div>
+
+      <!-- 게임 실패 화면 -->
+      <div id="game_lose" class="hide">
+        <h1>게임실패</h1>
+        <button id="gamelose_home">GOHOME</button>
+        <button id="replay">REPLAY</button>
+        <img id="ghost" src="img/ghost2_edit.png" />
+        <img id="stone" src="img/stone_edit.png" />
       </div>
     </div>
   </body>

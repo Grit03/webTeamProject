@@ -1,0 +1,105 @@
+#ghost {
+  position:absolute;
+  width:150px;
+  top:420px;
+  left:250px;
+  z-index: 1;
+  animation-delay:2s;
+  animation-name: ghost;
+  animation-duration:1.0s;
+  animation-duration: linear;
+  animation-iteration-count:infinite;
+  animation-direction:normal;
+  animation-fill-mode: forwards;
+}
+@keyframes ghost {
+  0% {
+    top:420px;
+    left:250px;
+  }
+  10%{
+    top:410px;
+    left:257px;
+  }
+  20%{
+    top:400px;
+    left:264px;
+  }
+  30%{
+    top:390px;
+    left:267px;
+  }
+  40%{
+    top:380px;
+    left:264px;
+  }
+  50%{
+    top:370px;
+    left:257px;
+  }
+  60%{
+    top:380px;
+    left:250px;
+  }
+  70%{
+    top:390px;
+    left:243px;
+  }
+  80%{
+    top:400px;
+    left:236px;
+  }
+  90%{
+    top:410px;
+    left:243px;
+  }
+  100% {
+    top:420px;
+    left:250px;
+  }
+}
+
+#game_lose{
+  position:relative;
+}
+
+#stone {
+  position: absolute;
+  top:0px;
+  left:300px;
+  width:150px;
+  animation-name: stone;
+  animation-duration:1s;
+  animation-duration: linear;
+  animation-iteration-count:1;
+  animation-direction:alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes stone {
+  0% {
+    top:0px;
+  }
+
+  100% {
+    top:440px;
+  }
+}
+
+
+#game_win{
+  background-image: url("img/success_back.jpg");
+  background-size: 720px 720px;
+  width:720px;
+  height:720px;
+  position:relative;
+}
+
+#game_lose{
+  background-image: url("img/fail_back.jpg");
+  background-size: 720px 720px;
+  width:720px;
+  height:720px;
+  position:relative;
+}
+

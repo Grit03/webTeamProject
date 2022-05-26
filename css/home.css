@@ -1,0 +1,64 @@
+/*홈 화면*/
+#home {
+  width: 720px;
+  height: 720px;
+  background-image: url("../img/backgrounds/background_maple_full2.png");
+  background-size: 720px 720px;
+  position: relative;
+}
+#home_logo {
+  position: absolute;
+  top: 65px;
+  left: 80px;
+}
+#home_allage {
+  position: absolute;
+  width: 90px;
+  top: 10px;
+  left: 10px;
+}
+#home_brickout {
+  position: absolute;
+  width: 200px;
+  top: 200px;
+  left: 250px;
+}
+#home_menu1 {
+  position: absolute;
+  width: 180px;
+  top: 350px;
+  left: 15px;
+}
+#home_menu2 {
+  position: absolute;
+  width: 180px;
+  top: 430px;
+  left: 15px;
+}
+#home_menu3 {
+  position: absolute;
+  width: 180px;
+  top: 510px;
+  left: 15px;
+}
+#home_menu1_span {
+  font-family: "Jua", sans-serif;
+  font-size: 32px;
+  position: absolute;
+  top: 375px;
+  left: 55px;
+}
+#home_menu2_span {
+  font-family: "Jua", sans-serif;
+  font-size: 32px;
+  position: absolute;
+  top: 455px;
+  left: 55px;
+}
+#home_menu3_span {
+  font-family: "Jua", sans-serif;
+  font-size: 32px;
+  position: absolute;
+  top: 535px;
+  left: 55px;
+}

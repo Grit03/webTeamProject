@@ -1,0 +1,175 @@
+/*게임 시작 화면*/
+#game_start {
+  background-image: url("../img/backgrounds/real_gamestart_back.jpg");
+  background-size: 720px 720px;
+  width: 720px;
+  height: 720px;
+  position: relative;
+}
+#gamestart_home {
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+#gamestart_content {
+  width: 650px;
+  height: 640px;
+  background-color: white;
+  opacity: 0.5;
+  position: absolute;
+  top: 50px;
+  left: 35px;
+}
+
+.level_btn_class {
+  position: absolute;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  font-family: "Jua", sans-serif;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+#level1 {
+  top: 600px;
+  left: 90px;
+}
+#level2 {
+  position: absolute;
+  top: 600px;
+  left: 290px;
+}
+#level3 {
+  position: absolute;
+  top: 600px;
+  left: 490px;
+}
+
+/*시작화면 게임설명부분 캐릭터들*/
+.intro_character_img {
+  position: absolute;
+}
+#intro_kind1 {
+  width: 80px;
+  top: 200px;
+  left: 180px;
+}
+#intro_kind2 {
+  width: 80px;
+  top: 230px;
+  left: 230px;
+}
+#intro_kind3 {
+  width: 120px;
+  top: 140px;
+  left: 40px;
+}
+#intro_kind4 {
+  width: 80px;
+  top: 195px;
+  left: 130px;
+}
+#intro_kind5 {
+  width: 80px;
+  top: 140px;
+  left: 150px;
+}
+#intro_kind6 {
+  width: 80px;
+  top: 100px;
+  left: 100px;
+}
+#intro_villain1 {
+  width: 90px;
+  top: 170px;
+  left: 430px;
+}
+#intro_villain2 {
+  width: 120px;
+  top: 170px;
+  left: 350px;
+}
+#intro_villain3 {
+  width: 120px;
+  top: 170px;
+  left: 480px;
+}
+#intro_villain4 {
+  width: 170px;
+  top: 45px;
+  left: 525px;
+}
+#intro_villain5 {
+  width: 170px;
+  top: 45px;
+  left: 400px;
+}
+#intro_villain6 {
+  width: 120px;
+  top: 170px;
+  left: 550px;
+}
+/***/
+
+.v1 {
+  animation-name: v1;
+  animation-duration: 1s;
+  animation-duration: linear;
+  animation-iteration-count: 100;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes v1 {
+  0% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(+10px);
+  }
+}
+
+.v2 {
+  animation-name: v2;
+  animation-duration: 1s;
+  animation-duration: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes v2 {
+  0% {
+    transform: translateX(+10px);
+  }
+
+  100% {
+    transform: translateX(-10px);
+  }
+}
+
+#story_telling {
+  position: absolute;
+  width: 600px;
+  padding: 10px 0px;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Jua", sans-serif;
+  border: 2px solid black;
+  border-radius: 5px;
+  top: 300px;
+  left: 55px;
+}
+#level_choice_content {
+  position: absolute;
+  padding: 10px;
+  font-size: 30px;
+  text-align: center;
+  font-family: "Jua", sans-serif;
+  border: 2px solid black;
+  border-radius: 5px;
+  top: 500px;
+  left: 255px;
+}

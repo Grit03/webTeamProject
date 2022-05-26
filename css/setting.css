@@ -1,0 +1,213 @@
+.maple_img {
+  width: 50px;
+}
+#setting span {
+  background-image: url("../img/UI/texture/texture.png");
+}
+/*게임 설정 화면*/
+#setting {
+  background-image: url("../img/backgrounds/setting_back2.png");
+  background-size: 720px 720px;
+  width: 720px;
+  height: 720px;
+  position: relative;
+}
+#setting_home {
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+#setting_content {
+  width: 650px;
+  height: 640px;
+  background-color: white;
+  opacity: 0.65;
+  position: absolute;
+  top: 50px;
+  left: 35px;
+}
+#setting label {
+  font-family: "Jua", sans-serif;
+  text-align: center;
+}
+
+div#setting > input {
+  display: none;
+}
+
+#maple1 {
+  position: absolute;
+  top: 95px;
+  left: 40px;
+}
+#maple2 {
+  position: absolute;
+  top: 330px;
+  left: 40px;
+}
+#maple3 {
+  position: absolute;
+  top: 555px;
+  left: 40px;
+}
+#backsound_span {
+  position: absolute;
+  top: 105px;
+  left: 100px;
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 25px;
+  width: 100px;
+  text-align: center;
+  background-color: pink;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+#thema_span {
+  position: absolute;
+  top: 340px;
+  left: 100px;
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 25px;
+  width: 100px;
+  text-align: center;
+  background-color: pink;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+#character_span {
+  position: absolute;
+  top: 565px;
+  left: 100px;
+  font-family: "Do Hyeon", sans-serif;
+  font-size: 25px;
+  width: 100px;
+  text-align: center;
+  background-color: pink;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+#soundon_btn {
+  position: absolute;
+  top: 75px;
+  left: 250px;
+  background-color: white;
+  width: 60px;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+#sound_on:checked ~ #soundon_btn {
+  background-color: yellowgreen;
+  border: 2px solid yellowgreen;
+  border-radius: 5px;
+}
+#sound_on:checked ~ .backClass {
+  display: block;
+}
+#soundoff_btn {
+  position: absolute;
+  top: 75px;
+  left: 330px;
+  width: 60px;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+#sound_off:checked ~ #soundoff_btn {
+  background-color: yellowgreen;
+  border: 2px solid yellowgreen;
+  border-radius: 5px;
+}
+#backsound1_btn {
+  position: absolute;
+  top: 145px;
+  left: 250px;
+  width: 90px;
+  background-color: bisque;
+  border: 2px solid bisque;
+  border-radius: 5px;
+  display: none;
+}
+#backsound1:checked ~ #backsound1_btn {
+  border: 2px solid red;
+}
+#backsound2_btn {
+  position: absolute;
+  top: 145px;
+  left: 390px;
+  width: 90px;
+  background-color: bisque;
+  border: 2px solid bisque;
+  border-radius: 5px;
+  display: none;
+}
+#backsound2:checked ~ #backsound2_btn {
+  border: 2px solid red;
+}
+#backsound3_btn {
+  position: absolute;
+  top: 145px;
+  left: 530px;
+  width: 90px;
+  background-color: bisque;
+  border: 2px solid bisque;
+  border-radius: 5px;
+  display: none;
+}
+#backsound3:checked ~ #backsound3_btn {
+  border: 2px solid red;
+}
+#thema1_btn {
+  position: absolute;
+  top: 270px;
+  left: 250px;
+  padding: 15px;
+}
+#thema1:checked ~ #thema1_btn {
+  border: 2px solid red;
+}
+#thema2_btn {
+  position: absolute;
+  top: 270px;
+  left: 390px;
+  padding: 15px;
+}
+#thema2:checked ~ #thema2_btn {
+  border: 2px solid red;
+}
+#thema3_btn {
+  position: absolute;
+  top: 270px;
+  left: 530px;
+  padding: 15px;
+}
+#thema3:checked ~ #thema3_btn {
+  border: 2px solid red;
+}
+#character1_btn {
+  position: absolute;
+  top: 530px;
+  left: 265px;
+  padding: 10px;
+}
+#character1:checked ~ #character1_btn {
+  border: 2px solid red;
+}
+#character2_btn {
+  position: absolute;
+  top: 530px;
+  left: 400px;
+  padding: 10px;
+}
+#character2:checked ~ #character2_btn {
+  border: 2px solid red;
+}
+#character3_btn {
+  position: absolute;
+  top: 530px;
+  left: 530px;
+  padding: 10px;
+}
+#character3:checked ~ #character3_btn {
+  border: 2px solid red;
+}

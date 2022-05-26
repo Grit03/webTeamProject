@@ -1,7 +1,17 @@
-@import url("reset.css");
+@import url("./reset.css");
+@import url("./home.css");
+@import url("./game_rule.css");
+@import url("./game_start.css");
+@import url("./setting.css");
+@import url("./game_winlose.css");
 
 * {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 body {
   width: 100vw;
@@ -13,18 +23,17 @@ canvas {
   background: #eee;
   display: block;
 }
-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-}
-#gameView {
+.gameView {
   width: 720px;
   height: 720px;
   display: flex;
+  background-image: url("img/backgrounds/background_maple_full2.png");
   position: absolute;
 }
-#nextGamePage{
+.hide {
+  display: none;
+}
+#nextGamePage {
   width: 720px;
   height: 720px;
   background-image: url("img/nextLevelBG/nextLevelBG2.jpg");
@@ -92,42 +101,42 @@ button {
   width: 65px;
   left: -27px;
 }
-#nextLevel{
+#nextLevel {
   border: none;
-    position: absolute;
-    top: 475px;
-    left: 450px;    
-    cursor: pointer;
-    width: 150px;
-    height: 200px;
+  position: absolute;
+  top: 475px;
+  left: 450px;
+  cursor: pointer;
+  width: 150px;
+  height: 200px;
 }
-#btn1{
-    background: none;
-    border: none;
-    position: absolute;
-    top: 475px;
-    left: 100px;
-    cursor: pointer;
-    width: 150px;
-    height: 200px;
+#btn1 {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 475px;
+  left: 100px;
+  cursor: pointer;
+  width: 150px;
+  height: 200px;
 }
-#btn2{
-    background: none;
-    border: none;
-    position: absolute;
-    top: 475px;
-    left: 450px;    
-    cursor: pointer;
-    width: 150px;
-    height: 200px;
+#btn2 {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 475px;
+  left: 450px;
+  cursor: pointer;
+  width: 150px;
+  height: 200px;
 }
-#game_win{
+#game_win {
   background-image: url("img/backgrounds/success_back.jpg");
   background-size: 720px 720px;
-  width:720px;
-  height:720px;
-  position:relative;
+  width: 720px;
+  height: 720px;
+  position: relative;
 }
-.hide{
+.hide {
   display: none;
 }
