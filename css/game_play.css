@@ -1,0 +1,111 @@
+#nextGamePage {
+  width: 720px;
+  height: 720px;
+  background-image: url("img/nextLevelBG/nextLevelBG2.jpg");
+  position: absolute;
+  z-index: 1;
+  background-size: 720px;
+}
+#playerInfo {
+  height: 720px;
+  width: 240px;
+  position: relative;
+}
+#playerBar {
+  position: absolute;
+  top: 500px;
+  padding: 20px;
+}
+#main {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#gameOver {
+  position: absolute;
+  width: 720px;
+  height: 720px;
+  z-index: 1;
+}
+#monsterHealthBar {
+  align-items: center;
+  position: absolute;
+  top: 150px;
+  left: 30px;
+  height: 30px;
+  width: 420px;
+  z-index: 1;
+  border-radius: 20px;
+  border: 4px solid black;
+}
+#monsterHealthBar::before {
+  position: absolute;
+  content: "";
+  top: -10px;
+  left: -15px;
+  width: 35px;
+  height: 35px;
+  border: 4px solid black;
+  transform: rotate(45deg);
+  border-radius: 13px;
+  background-color: #202124;
+  z-index: 2;
+}
+#monsterHealthBar::after {
+  position: absolute;
+  content: "";
+  top: -5px;
+  right: -15px;
+  width: 30px;
+  height: 25px;
+  border: 4px solid black;
+  border-radius: 50px;
+  background-color: #202124;
+}
+#monsterHealthBar__icon {
+  position: absolute;
+  z-index: 2;
+  top: -20px;
+  width: 65px;
+  left: -27px;
+}
+#nextLevel {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 475px;
+  left: 450px;
+  cursor: pointer;
+  width: 150px;
+  height: 200px;
+}
+#btn1 {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 475px;
+  left: 100px;
+  cursor: pointer;
+  width: 150px;
+  height: 200px;
+}
+#btn2 {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 475px;
+  left: 450px;
+  cursor: pointer;
+  width: 150px;
+  height: 200px;
+}
+#game_win {
+  background-image: url("img/backgrounds/success_back.jpg");
+  background-size: 720px 720px;
+  width: 720px;
+  height: 720px;
+  position: absolute;
+  z-index: 1;
+}

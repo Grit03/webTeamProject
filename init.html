@@ -142,12 +142,15 @@
       <!-- 게임 화면 -->
       <div class="game gameView hide">
         <div id="nextGamePage" class="hide">
+          <button id = "btn1" onclick="menuBtnListener()" >
           <button id="nextLevel" onclick="nextLevelBtnListener()">
-            
-          </button>
         </div>
         <canvas id="myCanvas" width="480" height="720"></canvas>
         <div id="playerInfo" style="background-color: #a9a9a9">
+          <div id="playerBar">
+            <div id="livesBar"></div>
+          </div>
+          <button onclick="draw();">시작하기</button>
         </div>
         <div id="gameOver" class="hide">
           <img src="img/gameoverBG/gameover2.png">

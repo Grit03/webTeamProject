@@ -44,10 +44,16 @@ var timeId;
 var speed = 3 * Math.sqrt(2);
 var paddleAccel = 3;
 var AccelPlus = 0.4;
-var maxAccel = 20;
+var maxAccel = 18;
 var paddleAccelSlide = 0;
 var monster;
 var level = 1;
+var item_src = [
+  "./img/items/item_red.png",
+  "./img/items/item_blue.png",
+  "./img/items/item_white.png",
+];
+var attack_damage = 70;
 
 // 벽돌 관련 전역 함수
 var brickRowCount = 7;
@@ -104,10 +110,19 @@ class Monster {
 // 벽돌 클래스
 class Brick {
   constructor(statusValue) {
+    var random_item = Math.floor(Math.random() * 10) + 1;
     this.x = 0;
     this.y = 0;
     this.status = statusValue;
-    this.item = new Item("./img/items/exp.gif");
+    if (random_item >= 1 && random_item <= 7) {
+      this.item = new Item(item_src[0]);
+    } else if (random_item == 8) {
+      this.item = new Item(item_src[1]);
+    } else if (random_item == 9) {
+      this.item = new Item(item_src[2]);
+    } else if (random_item == 10) {
+      this.item = new Item(item_src[2]);
+    }
   }
   itemShow() {
     ctx.drawImage(this.item.img, this.item.x, this.item.y, 30, 30);
@@ -115,7 +130,7 @@ class Brick {
   itemFall() {
     if (this.item.y < canvas.height - paddleHeight) {
       this.itemShow();
-      this.item.y += 3;
+      this.item.y += 2;
     } else {
       if (this.item.x >= paddleX && this.item.x <= paddleX + paddleWidth - 30) {
         lives++;
@@ -225,13 +240,23 @@ function collisionDetection() {
     if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
     }
     monsterLifeGageBar.width = monsterLifeGageBar.width - 70;
-    if (monsterLifeGageBar.width == 0) {
+    if (monsterLifeGageBar.width <= 0) {
       // 몬스터 죽음.
       // 다음 스테이지로
       monsterHealthBar.classList.add("hide");
-      document.getElementById("nextGamePage").classList.remove("hide");
-      monsterLifeGageBar.width = 420;
-      endLevel();
+      if (level != 3) {
+        document.getElementById("nextGamePage").classList.remove("hide");
+        levelUp();
+        // console.log(level);
+        monsterLifeGageBar.width = 420;
+        endLevel();
+        return;
+      }
+      if (level == 3) {
+        levelUp();
+        endLevel();
+        return;
+      }
     }
   }
 
@@ -396,28 +421,33 @@ function drawEffects() {
 //다음 스테이지 버튼
 function nextLevelBtnListener() {
   document.getElementById("nextGamePage").classList.add("hide");
-  levelUp();
-  console.log(level);
-  lives = 5;
+  lives = 6; // 오류 있음
   levelClear = false;
   x = canvas.width * 0.5;
   y = canvas.height - 30;
+  monsterHealthBar.classList.remove("hide");
   draw();
   return;
 }
 
 // 점수 표시
-function drawScore() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Score: " + score, 8, 20);
-}
+// function drawScore() {
+//   ctx.font = "16px Arial";
+//   ctx.fillStyle = "#0095DD";
+//   ctx.fillText("Score: " + score, 8, 20);
+// }
 
-// 목숨 표시
+// 목숨 하트로 표시
 function drawLives() {
-  ctx.font = "16px Arial";
-  ctx.fillStyle = "#0095DD";
-  ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
+  var livesbar = document.getElementById("livesBar");
+  livesbar.innerHTML = "";
+  for (var i = 0; i < lives && i < 5; i++) {
+    var img = document.createElement("img");
+    img.src = "./img/lives/lives.png";
+    img.style.width = "40px";
+    img.style.left = i * 20 + "px";
+    livesbar.appendChild(img);
+  }
 }
 
 //게임 오버 화면 그리기
@@ -446,7 +476,13 @@ function restartBtnListener() {
 //실패한 스테이지에서 재시작
 function restart() {
   hideGameOver();
-  endLevel();
+  lives = 6;
+  levelClear = false;
+  x = canvas.width * 0.5;
+  y = canvas.height - 30;
+  monsterHealthBar.classList.remove("hide");
+  monsterLifeGageBar.width = 420;
+  draw();
 }
 
 //해당 게임 끝내기
@@ -459,10 +495,13 @@ function endLevel() {
 function levelUp() {
   if (level == 1) {
     level = 2;
-    console.log(monsterLifeGageBar.width);
+    paddleWidth = 120;
+    attack_damage = 55;
     return;
   } else if (level == 2) {
     level = 3;
+    paddleWidth = 80;
+    attack_damage = 40;
     return;
   } else {
     endGamePage();
@@ -484,7 +523,6 @@ function draw() {
   drawBricks();
   drawBall();
   drawPaddle();
-  drawScore();
   drawLives();
   collisionDetection();
   drawEffects();
@@ -512,47 +550,49 @@ function draw() {
     return;
   }
 
-  //버튼 누를 때 패들 가속도 계산
-  if (rightPressed && paddleX < canvas.width - paddleWidth) {
-    paddleAccel += AccelPlus;
-  } else if (leftPressed && paddleX > 0) {
-    paddleAccel -= AccelPlus;
-  }
-
-  //버튼 누를 때 패들 움직이기
-  if (
-    paddleX + paddleAccel > 0 &&
-    paddleX + paddleAccel < canvas.width - paddleWidth
-  ) {
-    paddleX += paddleAccel;
-  }
-
-  //슬라이드 할 가속도 저장해두기(버튼 누르면 초기화됨)
-  if (paddleAccel != 0) {
-    paddleAccelSlide = paddleAccel;
-  }
-
-  //버튼에서 손 때면 패들 움직이기(미끄러지는 효과)
-  if (
-    !rightPressed &&
-    !leftPressed &&
-    paddleX > 0 &&
-    paddleX < canvas.width - paddleWidth
-  ) {
-    if (paddleAccelSlide > AccelPlus) {
-      paddleAccelSlide -= AccelPlus;
-      paddleX += paddleAccelSlide;
-    } else if (paddleAccelSlide < AccelPlus * -1) {
-      paddleAccelSlide += AccelPlus;
-      paddleX += paddleAccelSlide;
+  if (paddleX >= 0 && paddleX <= canvas.width - paddleWidth) {
+    //버튼 누를 때 패들 가속도 계산
+    if (rightPressed) {
+      paddleAccel += AccelPlus;
+    } else if (leftPressed) {
+      paddleAccel -= AccelPlus;
     }
+
+    //버튼 누를 때 패들 움직이기
+    paddleX += paddleAccel;
+
+    //슬라이드 할 가속도 저장해두기(방향키 버튼 누르면 초기화됨)
+    if (paddleAccel != 0) {
+      paddleAccelSlide = paddleAccel;
+    }
+
+    //버튼에서 손 때면 패들 움직이기(미끄러지는 효과)
+    if (!rightPressed && !leftPressed) {
+      if (paddleAccelSlide > AccelPlus) {
+        paddleAccelSlide -= AccelPlus;
+        paddleX += paddleAccelSlide;
+      } else if (paddleAccelSlide < AccelPlus * -1) {
+        paddleAccelSlide += AccelPlus;
+        paddleX += paddleAccelSlide;
+      }
+    }
+  } //패들이 왼쪽 화면을 넘어가는 경우
+  else if (paddleX < 0) {
+    paddleX = 0;
+    paddleAccel = 0;
+    paddleAccelSlide = 0;
+  } //패들이 오른쪽 화면을 넘어가는 경우
+  else if (paddleX > canvas.width - paddleWidth) {
+    paddleX = canvas.width - paddleWidth;
+    paddleAccel = 0;
+    paddleAccelSlide = 0;
   }
 
   if (!rightPressed && !leftPressed) {
     paddleAccel = 0;
   }
 
-  //화면에 부딪히면 방향 변경
+  //공이 화면에 부딪히면 방향 변경
   if (x >= canvas.width - ballRadius || x <= ballRadius) {
     dx = -dx;
     ballImpact.play();
@@ -561,7 +601,6 @@ function draw() {
     dy = -dy;
     ballImpact.play();
   } else if (y >= canvas.height - ballRadius) {
-    //정진우 수정-speed 변수 선언도 위에 있음
     if (x > paddleX && x < paddleX + paddleWidth) {
       //패들 정지했을 땐 dx 방향만 바꿔주기
       if (!leftPressed && !rightPressed) {
