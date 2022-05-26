@@ -9,6 +9,7 @@
     <script src="js/game_start.js"></script>
     <script src="js/game_winlose.js"></script>
     <script src="js/play.js"></script>
+
     <script type="text/javascript" src="js/snowfall.jquery.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link
@@ -30,14 +31,18 @@
         <img id="home_menu1" src="img/UI/buttons/wood1.png" />
         <img id="home_menu2" src="img/UI/buttons/wood2.png" />
         <img id="home_menu3" src="img/UI/buttons/wood3.png" />
-        <span id="home_menu1_span">게임시작</span>
-        <span id="home_menu2_span">게임설명</span>
-        <span id="home_menu3_span">게임설정</span>
+        <span class="pointerCursor" id="home_menu1_span">게임시작</span>
+        <span class="pointerCursor" id="home_menu2_span">게임설명</span>
+        <span class="pointerCursor" id="home_menu3_span">게임설정</span>
       </div>
 
       <!-- 게임 레벨 선택 화면 -->
       <div id="game_start" class="gameView hide">
-        <img id="gamestart_home" src="img/UI/buttons/back_img.png" />
+        <img
+          class="pointerCursor"
+          id="gamestart_home"
+          src="img/UI/buttons/back_img.png"
+        />
         <div id="gamestart_content"></div>
         <img
           id="intro_kind1"
@@ -99,20 +104,29 @@
           src="img/monsters/intro_villain6_edit.png"
           class="intro_character_img v2"
         />
-        <button id="level1" class="level_btn_class">level1</button>
-        <button id="level2" class="level_btn_class">level2</button>
-        <button id="level3" class="level_btn_class">level3</button>
+        <button id="level1" class="level_btn_class pointerCursor">
+          level1
+        </button>
+        <button id="level2" class="level_btn_class pointerCursor">
+          level2
+        </button>
+        <button id="level3" class="level_btn_class pointerCursor">
+          level3
+        </button>
         <span id="story_telling">
-          스토리스토리스토리스토리스토리스토리스토리스토리<br />
-          스토리스토리스토리스토리스토리스토리스토리스토리<br />
-          스토리스토리스토리스토리스토리스토리스토리스토리<br
-        /></span>
+          메이플스토리 장난감 마을이 위험에 빠졌다!<br />
+          장난감들을 괴롭히는 나쁜 몬스터들을 물리치자<br />
+        </span>
         <span id="level_choice_content">게임 난이도 선택</span>
       </div>
 
       <!-- 게임 설명 -->
       <div id="explanation" class="gameView hide">
-        <img id="explanation_home" src="img/UI/buttons/back_img.png" />
+        <img
+          class="pointerCursor"
+          id="explanation_home"
+          src="img/UI/buttons/back_img.png"
+        />
         <div id="explanation_content"></div>
         <span id="explanation_span1" class="explanation_span">게임 조작</span>
         <span id="explanation_span2" class="explanation_span">아이템</span>
@@ -121,43 +135,55 @@
         <img
           id="explanation_item1"
           src="img/items/item_blue.png"
-          width="90px"
+          width="80px"
         />
-        <img id="explanation_item2" src="img/items/item_red.png" width="90px" />
+        <img id="explanation_item2" src="img/items/item_red.png" width="80px" />
         <img
           id="explanation_item3"
           src="img/items/item_white.png"
-          width="90px"
+          width="80px"
         />
-        <span id="explanation_text1" class="item_content"
-          >게임방법게임방법<br />게임방법게임방법</span
+        <span id="explanation_text1" class="item_content">
+          <strong>마우스 또는 방향키 버튼</strong>으로 막대를 움직여서 공을
+          튕깁니다.<br />
+          일정 시간 간격으로 내려오는 벽돌들을 부수고 <br />
+          상단에 있는 몬스터를 때려서 체력을 깎아야 한다.</span
         >
-        <span id="explanation_text2" class="item_content"
-          >게임승리게임승리<br />게임승리게임승리</span
+        <span id="explanation_text2" class="item_content">
+          밀려 내려오는 벽돌들을 부수고<br />
+          보스 몬스터를 때려서 보스 몬스터 체력을 0으로 만들면 승리</span
         >
-        <span id="explanation_text3" class="item_content"
-          >게임패배게임패배<br />게임패배게임패배</span
+        <span id="explanation_text3" class="item_content">
+          공을 놓치면 생명 -1. 플레이어의 생명이 0이 되거나<br />
+          밀려내려오는 벽돌들이 바닥에 닿으면 게임 패배!</span
         >
-        <span id="item_content1" class="item_content"
-          >사탕<br />공의 크기를 증가</span
+        <span id="item_content2" class="item_content">
+          파란포션<br />
+          공 크기 증가</span
         >
-        <span id="item_content2" class="item_content"
-          >빨간포션<br />체력을 +1 증가</span
+        <span id="item_content1" class="item_content">
+          빨간 포션<br />
+          체력을 +1 증가</span
         >
-        <span id="item_content3" class="item_content"
-          >파란포션<br />이거 뭐였더라</span
+        <span id="item_content3" class="item_content">
+          흰색 포션<br />
+          벽돌 생성<br />
+          속도를 늦춤</span
         >
       </div>
 
       <!-- 게임 설정 -->
       <div id="setting" class="gameView hide">
-        <img id="setting_home" src="img/UI/buttons/back_img.png" />
+        <img
+          class="pointerCursor"
+          id="setting_home"
+          src="img/UI/buttons/back_img.png"
+        />
 
         <div id="setting_content"></div>
         <img id="maple1" class="maple_img" src="img/logo/maple_edit.png" />
         <img id="maple2" class="maple_img" src="img/logo/maple_edit.png" />
         <img id="maple3" class="maple_img" src="img/logo/maple_edit.png" />
-
         <input
           id="sound_on"
           type="radio"
@@ -172,8 +198,10 @@
           value="soundOff"
         />
         <span id="backsound_span">배경음악</span>
-        <label id="soundon_btn" for="sound_on">ON</label>
-        <label id="soundoff_btn" for="sound_off">OFF</label>
+        <label class="pointerCursor" id="soundon_btn" for="sound_on">ON</label>
+        <label class="pointerCursor" id="soundoff_btn" for="sound_off"
+          >OFF</label
+        >
 
         <input
           id="backsound1"
@@ -194,13 +222,22 @@
           name="background_sound"
           value="backsound3"
         />
-        <label id="backsound1_btn" class="backClass" for="backsound1"
+        <label
+          id="backsound1_btn"
+          class="backClass pointerCursor"
+          for="backsound1"
           >Music1</label
         >
-        <label id="backsound2_btn" class="backClass" for="backsound2"
+        <label
+          id="backsound2_btn"
+          class="backClass pointerCursor"
+          for="backsound2"
           >Music2</label
         >
-        <label id="backsound3_btn" class="backClass" for="backsound3"
+        <label
+          id="backsound3_btn"
+          class="backClass pointerCursor"
+          for="backsound3"
           >Music3</label
         >
 
@@ -208,19 +245,19 @@
         <input id="thema2" type="radio" name="thema" />
         <input id="thema3" type="radio" name="thema" />
         <span id="thema_span">배경테마</span>
-        <label id="thema1_btn" for="thema1">
+        <label class="pointerCursor" id="thema1_btn" for="thema1">
           <img
             src="img/backgrounds/ludibrium1.jpg"
             width="70px"
           /><br />배경1</label
         >
-        <label id="thema2_btn" for="thema2">
+        <label class="pointerCursor" id="thema2_btn" for="thema2">
           <img
             src="img/backgrounds/ludibrium2.jpg"
             width="70px"
           /><br />배경2</label
         >
-        <label id="thema3_btn" for="thema3">
+        <label class="pointerCursor" id="thema3_btn" for="thema3">
           <img
             src="img/backgrounds/ludibrium3.jpg"
             width="70px"
@@ -236,19 +273,19 @@
         <input id="character2" type="radio" name="character" />
         <input id="character3" type="radio" name="character" />
         <span id="character_span">캐릭터선택</span>
-        <label id="character1_btn" for="character1">
+        <label class="pointerCursor" id="character1_btn" for="character1">
           <img
             src="img/characters/character1_edit.png"
             width="60px"
           /><br />초보자</label
         >
-        <label id="character2_btn" for="character2">
+        <label class="pointerCursor" id="character2_btn" for="character2">
           <img
             src="img/characters/character2_edit.png"
             width="60px"
           /><br />도적</label
         >
-        <label id="character3_btn" for="character3">
+        <label class="pointerCursor" id="character3_btn" for="character3">
           <img
             src="img/characters/character3_edit.png"
             width="65px"
@@ -264,14 +301,6 @@
             <div id="livesBar"></div>
           </div>
         </div>
-
-        <!-- 게임 오버 -->
-        <!-- <div id="gameOver" class="hide">
-          <img src="img/gameoverBG/gameover2.png" />
-          <button id="btn1" onclick="menuBtnListener()"></button>
-          <button id="btn2" onclick="restartBtnListener()"></button>
-        </div> -->
-
         <div id="monsterHealthBar">
           <img id="monsterHealthBar__icon" src="./img/monster.png" />
         </div>
@@ -280,8 +309,16 @@
       <!-- 게임 시 화면 변경 (다음 스테이지로 전환, 승리, 패배) -->
       <!-- 스테이지 전환 화면 -->
       <div id="nextGamePage" class="hide">
-        <button id="btn1" onclick="menuBtnListener()"></button>
-        <button id="nextLevel" onclick="nextLevelBtnListener()"></button>
+        <button
+          class="pointerCursor"
+          id="btn1"
+          onclick="menuBtnListener()"
+        ></button>
+        <button
+          class="pointerCursor"
+          id="nextLevel"
+          onclick="nextLevelBtnListener()"
+        ></button>
       </div>
 
       <!-- 게임 승리 화면 -->
@@ -291,7 +328,13 @@
         <img id="victory_logo" src="img/logo/victory_edit.png" />
         <div id="game_win_div">
           <span id="game_win_score">점수: </span>
-          <button id="gamewin_home" onclick="menuBtnListener()">GOHOME</button>
+          <button
+            class="pointerCursor"
+            id="gamewin_home"
+            onclick="menuBtnListener()"
+          >
+            GOHOME
+          </button>
         </div>
       </div>
 
@@ -299,10 +342,20 @@
       <div id="game_lose" class="hide">
         <div id="game_lose_choose">
           <span id="game_lose_choose_content">게임 패배</span>
-          <button id="gamelose_home" onclick="menuBtnListener()">GOHOME</button>
-          <button id="replay" onclick="restartBtnListener()">REPLAY</button>
-          <!-- <button id="gamelose_home">GOHOME</button>
-          <button id="replay">REPLAY</button> -->
+          <button
+            class="pointerCursor"
+            id="gamelose_home"
+            onclick="menuBtnListener()"
+          >
+            GOHOME
+          </button>
+          <button
+            class="pointerCursor"
+            id="replay"
+            onclick="restartBtnListener()"
+          >
+            REPLAY
+          </button>
         </div>
         <img id="ghost" src="img/ghost2_edit.png" />
         <img id="stone" src="img/stone_edit.png" />

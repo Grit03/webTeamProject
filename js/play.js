@@ -28,7 +28,6 @@ window.onload = function () {
   document.addEventListener("mousemove", mouseMoveHandler, false);
   brickInitialize();
 };
-
 // 전역변수
 var canvas;
 var gameView;
@@ -50,7 +49,7 @@ var AccelPlus = 0.4;
 var maxAccel = 18;
 var paddleAccelSlide = 0;
 var monster;
-var level = 3;
+var level = 1;
 var item_src = [
   "./img/items/exp.gif",
   "./img/items/item_red.png",
@@ -81,6 +80,8 @@ var monsterLifeGageBar;
 // 배경
 var background = new Image();
 background.src = "./img/backgrounds/background1.png";
+var bgmLocation;
+var bgm = new Audio();
 
 // 효과
 var effects = [];
@@ -683,4 +684,5 @@ function draw() {
 
   drawBall();
   timeId = requestAnimationFrame(draw);
+  console.log(level);
 }

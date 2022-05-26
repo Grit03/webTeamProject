@@ -24,6 +24,7 @@
   background-color: white;
   opacity: 0.65;
   position: absolute;
+  border-radius: 25px;
   top: 50px;
   left: 35px;
 }
@@ -123,6 +124,8 @@ div#setting > input {
   top: 145px;
   left: 250px;
   width: 90px;
+  line-height: 25px;
+  height: 25px;
   background-color: bisque;
   border: 2px solid bisque;
   border-radius: 5px;
@@ -136,6 +139,8 @@ div#setting > input {
   top: 145px;
   left: 390px;
   width: 90px;
+  line-height: 25px;
+  height: 25px;
   background-color: bisque;
   border: 2px solid bisque;
   border-radius: 5px;
@@ -149,6 +154,8 @@ div#setting > input {
   top: 145px;
   left: 530px;
   width: 90px;
+  line-height: 25px;
+  height: 25px;
   background-color: bisque;
   border: 2px solid bisque;
   border-radius: 5px;

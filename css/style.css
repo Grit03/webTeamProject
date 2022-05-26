@@ -30,6 +30,11 @@ canvas {
   display: flex;
   background-image: url("../img/backgrounds/background_maple_full2.png");
   position: absolute;
+  cursor: url(https://cur.cursors-4u.net/games/gam-4/gam308.cur), auto;
+}
+.pointerCursor:hover {
+  cursor: url(https://cur.cursors-4u.net/games/gam-4/gam307.ani),
+    url(https://cur.cursors-4u.net/games/gam-4/gam307.png), auto;
 }
 .hide {
   display: none;
