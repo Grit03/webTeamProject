@@ -1,16 +1,19 @@
-$(document).ready(function(){
-  $("#level1").click(function(){
+$(document).ready(function () {
+  $("#level1").click(function () {
     $("#game_start").addClass("hide");
-    $("#game_start_level1").removeClass("hide")
-  })
+    $(".game").removeClass("hide");
+    draw();
+  });
 
-  $("#level1_game_win").click(function(){
+  $("#level1_game_win").click(function () {
     $("#game_start_level1").addClass("hide");
-    $("#game_win").removeClass("hide")
-  })
+    $(".game").removeClass("hide");
+    draw();
+  });
 
-  $("#level1_game_lose").click(function(){
+  $("#level1_game_lose").click(function () {
     $("#game_start_level1").addClass("hide");
-    $("#game_lose").removeClass("hide")
-  })
-})
+    $(".game").removeClass("hide");
+    draw();
+  });
+});

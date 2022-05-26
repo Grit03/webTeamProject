@@ -6,6 +6,7 @@ window.onload = function () {
   y = canvas.height - 30;
   paddleX = (canvas.width - paddleWidth) / 2;
   brickOffsetLeft = (canvas.width - brickWidth * 7) / 2;
+  console.log(brickOffsetLeft);
   // 몬스터 생명 게이지 객체
   monsterLifeGageBar = {
     width: 420,
@@ -15,7 +16,7 @@ window.onload = function () {
     barBottomY: 180,
   };
   ctx.drawImage(background, 0, 0);
-  monster = new Monster("img/monsters/boss1.gif");
+  monster = new Monster("./img/monsters/boss1.gif");
   monster.monsterImage.addEventListener("load", function () {
     monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
     monster.y = 150 - monster.monsterImage.height;
@@ -25,6 +26,7 @@ window.onload = function () {
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
+  brickInitialize();
 };
 
 // 전역변수
@@ -36,7 +38,7 @@ var y;
 var dx = 3;
 var dy = -3;
 var paddleHeight = 10;
-var paddleWidth = 75;
+var paddleWidth = 160;
 var paddleX;
 var rightPressed = false;
 var leftPressed = false;
@@ -49,13 +51,15 @@ var paddleAccelSlide = 0;
 var monster;
 var level = 1;
 var item_src = [
+  "./img/items/exp.gif",
   "./img/items/item_red.png",
   "./img/items/item_blue.png",
   "./img/items/item_white.png",
 ];
 var attack_damage = 70;
 
-// 벽돌 관련 전역 함수
+// 벽돌 & 공 관련 전역 함수
+var bricks;
 var brickRowCount = 7;
 var brickColumnCount = 1;
 var brickWidth = 50;
@@ -66,31 +70,49 @@ var score = 0;
 var lives = 5;
 var randomIndexArray = random();
 var max = 0;
+var brickSpeed = 600;
+var brickSpeedIter = 0;
+var ballIter = 0;
 
 // 몬스터 생명 게이지 객체
 var monsterLifeGageBar;
 
 // 배경
 var background = new Image();
-background.src = "img/backgrounds/background1.png";
+background.src = "./img/backgrounds/background1.png";
 
 // 효과
 var effects = [];
 
 // Sound Effect
 var ballImpact = new Audio();
-ballImpact.src = "sounds/ballImpact.mp3";
+ballImpact.src = "./sounds/ballImpact.mp3";
 
 // 레벨 관련 변수
 var levelClear = false;
 
 // 이미지 클래스
 class Item {
-  constructor(src) {
+  constructor() {
+    var randomPosition = Math.floor(Math.random() * 10) + 1;
     this.x = 0;
     this.y = 0;
     this.img = new Image();
-    this.img.src = src;
+
+    if (randomPosition >= 1 && randomPosition <= 7) {
+      // coin 이미지
+      this.img.src = item_src[0];
+      this.itemIndex = 0;
+    } else if (randomPosition == 8) {
+      this.img.src = item_src[1];
+      this.itemIndex = 1;
+    } else if (randomPosition == 9) {
+      this.img.src = item_src[2];
+      this.itemIndex = 2;
+    } else if (randomPosition == 10) {
+      this.img.src = item_src[3];
+      this.itemIndex = 3;
+    }
   }
 }
 
@@ -110,30 +132,45 @@ class Monster {
 // 벽돌 클래스
 class Brick {
   constructor(statusValue) {
-    var random_item = Math.floor(Math.random() * 10) + 1;
     this.x = 0;
     this.y = 0;
     this.status = statusValue;
-    if (random_item >= 1 && random_item <= 7) {
-      this.item = new Item(item_src[0]);
-    } else if (random_item == 8) {
-      this.item = new Item(item_src[1]);
-    } else if (random_item == 9) {
-      this.item = new Item(item_src[2]);
-    } else if (random_item == 10) {
-      this.item = new Item(item_src[2]);
-    }
+    this.brickImage = new Image();
+    this.brickImage.src =
+      "./img/bricks/" + "brick" + (Math.floor(Math.random() * 4) + 1) + ".png";
+    this.item = new Item();
   }
   itemShow() {
     ctx.drawImage(this.item.img, this.item.x, this.item.y, 30, 30);
   }
   itemFall() {
-    if (this.item.y < canvas.height - paddleHeight) {
-      this.itemShow();
-      this.item.y += 2;
-    } else {
-      if (this.item.x >= paddleX && this.item.x <= paddleX + paddleWidth - 30) {
-        lives++;
+    console.log(this.item.x, this.item.y);
+    this.itemShow();
+    this.item.y += 2;
+    if (
+      this.item.y >= canvas.height - paddleHeight - 30 &&
+      this.item.y <= canvas.height - 30 &&
+      this.item.x >= paddleX &&
+      this.item.x <= paddleX + paddleWidth - 30
+    ) {
+      //포션 먹었을 때 기능
+      console.log(this.item.itemIndex);
+      switch (this.item.itemIndex) {
+        case 0:
+          break;
+        case 1:
+          if (lives < 5) {
+            lives++;
+          }
+          break;
+        case 2:
+          ballIter = 2;
+          ballRadius = 20;
+          break;
+        case 3:
+          brickSpeedIter = 2;
+          brickSpeed = 900;
+          break;
       }
       this.item.y = 0;
     }
@@ -177,14 +214,21 @@ class Effect {
   }
 }
 
-var bricks = [];
-for (var c = 0; c < brickColumnCount; c++) {
-  bricks[c] = [];
-  for (var r = 0; r < brickRowCount; r++) {
-    if (randomIndexArray.indexOf(r) > 0) {
-      bricks[c][r] = new Brick(1);
-    } else {
-      bricks[c][r] = new Brick(0);
+function brickInitialize() {
+  brickColumnCount = 1;
+  ballRadius = 20;
+  brickSpeed = 600;
+  ballIter = 0;
+  brickSpeedIter = 0;
+  bricks = [];
+  for (var c = 0; c < brickColumnCount; c++) {
+    bricks[c] = [];
+    for (var r = 0; r < brickRowCount; r++) {
+      if (randomIndexArray.indexOf(r) > 0) {
+        bricks[c][r] = new Brick(1);
+      } else {
+        bricks[c][r] = new Brick(0);
+      }
     }
   }
 }
@@ -221,7 +265,7 @@ function keyUpHandler(e) {
 }
 
 function mouseMoveHandler(e) {
-  var gap = document.getElementById("gameView");
+  var gap = document.querySelector(".game");
   var relativeX = e.clientX - gap.offsetLeft;
   if (
     relativeX >= paddleWidth / 2 &&
@@ -239,7 +283,7 @@ function collisionDetection() {
     // 벽돌 범위 내의 x 좌표를 가지는 바를 맞추면 몬스터 게이지 감소
     if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
     }
-    monsterLifeGageBar.width = monsterLifeGageBar.width - 70;
+    monsterLifeGageBar.width = monsterLifeGageBar.width - attack_damage;
     if (monsterLifeGageBar.width <= 0) {
       // 몬스터 죽음.
       // 다음 스테이지로
@@ -264,10 +308,10 @@ function collisionDetection() {
     for (var r = 0; r < brickRowCount; r++) {
       var b = bricks[c][r];
       if (b.status == 1) {
-        // 몬스터 생명 게이지 바에 맞을 때
+        // 박스에 맞을 때
         if (
-          x >= b.x - ballRadius &&
-          x <= b.x + brickWidth + ballRadius &&
+          x > b.x - ballRadius &&
+          x < b.x + brickWidth + ballRadius &&
           ((y >= b.y - ballRadius && y <= b.y) ||
             (y >= b.y + brickHeight && y < b.y + brickHeight + ballRadius)) &&
           //양 끝쪽인 경우 dy만 바꿔주고 return-->그렇지 않으면 dx도 바뀌어서 이상해짐
@@ -286,16 +330,11 @@ function collisionDetection() {
           b.item.y = b.y + brickHeight;
 
           // 벽돌 깨짐 효과
-          var brickOutEffect = new Effect("img/effects/IceShatter_96x96.png");
+          var brickOutEffect = new Effect("./img/effects/IceShatter_96x96.png");
           brickOutEffect.x = b.x - (brickOutEffect.width - brickWidth) / 2;
           brickOutEffect.y = b.y - (brickOutEffect.height - brickHeight) / 2;
           effects.push(brickOutEffect);
           ballImpact.play();
-
-          if (score == brickRowCount * brickColumnCount) {
-            alert("YOU WIN, CONGRATS!");
-            document.location.reload();
-          }
 
           return;
         }
@@ -316,16 +355,11 @@ function collisionDetection() {
           b.item.y = b.y + brickHeight;
 
           // 벽돌 깨짐 효과
-          var brickOutEffect = new Effect("img/effects/IceShatter_96x96.png");
+          var brickOutEffect = new Effect("./img/effects/IceShatter_96x96.png");
           brickOutEffect.x = b.x - (brickOutEffect.width - brickWidth) / 2;
           brickOutEffect.y = b.y - (brickOutEffect.height - brickHeight) / 2;
           effects.push(brickOutEffect);
           ballImpact.play();
-
-          if (score == brickRowCount * brickColumnCount) {
-            alert("YOU WIN, CONGRATS!");
-            document.location.reload();
-          }
         }
       }
     }
@@ -352,7 +386,7 @@ function drawPaddle() {
 
 // 벽돌 그리기
 function drawBricks() {
-  if (timeId % 800 === 0) {
+  if (timeId % brickSpeed === 0) {
     setBrickColumnCount();
   }
   for (var c = 0; c < brickColumnCount; c++) {
@@ -363,11 +397,13 @@ function drawBricks() {
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
         ctx.beginPath();
-        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.strokeStyle = "black";
-        ctx.fillStyle = "#0095DD";
-        ctx.fill();
-        ctx.stroke();
+        ctx.drawImage(
+          bricks[c][r].brickImage,
+          bricks[c][r].x,
+          bricks[c][r].y,
+          50,
+          50
+        );
         ctx.closePath();
       } else {
         if (bricks[c][r].item.y != 0) {
@@ -497,11 +533,15 @@ function levelUp() {
     level = 2;
     paddleWidth = 120;
     attack_damage = 55;
+    brickSpeed = 400;
+    brickInitialize();
     return;
   } else if (level == 2) {
     level = 3;
     paddleWidth = 80;
     attack_damage = 40;
+    brickSpeed = 200;
+    brickInitialize();
     return;
   } else {
     endGamePage();
@@ -521,7 +561,6 @@ function draw() {
   drawMonsterLifeGage();
   monster.draw();
   drawBricks();
-  drawBall();
   drawPaddle();
   drawLives();
   collisionDetection();
@@ -602,6 +641,19 @@ function draw() {
     ballImpact.play();
   } else if (y >= canvas.height - ballRadius) {
     if (x > paddleX && x < paddleX + paddleWidth) {
+      //파란 포션(볼 크기) 지속 시간
+      if (ballIter > 0) {
+        ballIter--;
+      } else {
+        ballRadius = 10;
+      }
+      //흰 포션(벽돌 하강 속도) 지속 시간
+      if (brickSpeedIter > 0) {
+        brickSpeedIter--;
+      } else {
+        brickSpeed = 600;
+      }
+
       //패들 정지했을 땐 dx 방향만 바꿔주기
       if (!leftPressed && !rightPressed) {
         dy = -dy;
@@ -633,5 +685,6 @@ function draw() {
   x += dx;
   y += dy;
 
+  drawBall();
   timeId = requestAnimationFrame(draw);
 }

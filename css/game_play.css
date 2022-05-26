@@ -1,7 +1,7 @@
 #nextGamePage {
   width: 720px;
   height: 720px;
-  background-image: url("img/nextLevelBG/nextLevelBG2.jpg");
+  background-image: url("../img/backgrounds/nextStage.png");
   position: absolute;
   z-index: 1;
   background-size: 720px;
@@ -34,7 +34,7 @@
   position: absolute;
   top: 150px;
   left: 30px;
-  height: 30px;
+  height: 25px;
   width: 420px;
   z-index: 1;
   border-radius: 20px;
@@ -102,7 +102,7 @@
   height: 200px;
 }
 #game_win {
-  background-image: url("img/backgrounds/success_back.jpg");
+  background-image: url("../img/backgrounds/success_back.jpg");
   background-size: 720px 720px;
   width: 720px;
   height: 720px;
