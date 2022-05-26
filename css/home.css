@@ -1,5 +1,6 @@
 /*홈 화면*/
 #home {
+  font-family: "Jua", sans-serif;
   width: 720px;
   height: 720px;
   background-image: url("../img/backgrounds/background_maple_full2.png");
@@ -42,23 +43,20 @@
   left: 15px;
 }
 #home_menu1_span {
-  font-family: "Jua", sans-serif;
   font-size: 32px;
   position: absolute;
-  top: 375px;
-  left: 55px;
+  top: 380px;
+  left: 53px;
 }
 #home_menu2_span {
-  font-family: "Jua", sans-serif;
   font-size: 32px;
   position: absolute;
-  top: 455px;
-  left: 55px;
+  top: 460px;
+  left: 53px;
 }
 #home_menu3_span {
-  font-family: "Jua", sans-serif;
   font-size: 32px;
   position: absolute;
-  top: 535px;
-  left: 55px;
+  top: 540px;
+  left: 53px;
 }

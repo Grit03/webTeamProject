@@ -2,6 +2,7 @@
 window.onload = function () {
   canvas = document.getElementById("myCanvas");
   ctx = canvas.getContext("2d");
+  gameView = document.querySelector(".game");
   x = canvas.width / 2;
   y = canvas.height - 30;
   paddleX = (canvas.width - paddleWidth) / 2;
@@ -30,12 +31,13 @@ window.onload = function () {
 
 // 전역변수
 var canvas;
+var gameView;
 var ctx;
 var ballRadius;
 var x;
 var y;
-var dx = 3;
-var dy = -3;
+var dx = 5;
+var dy = -5;
 var paddleHeight = 10;
 var paddleWidth = 160;
 var paddleX;
@@ -48,7 +50,7 @@ var AccelPlus = 0.4;
 var maxAccel = 18;
 var paddleAccelSlide = 0;
 var monster;
-var level = 1;
+var level = 3;
 var item_src = [
   "./img/items/exp.gif",
   "./img/items/item_red.png",
@@ -285,7 +287,6 @@ function collisionDetection() {
     if (monsterLifeGageBar.width <= 0) {
       // 몬스터 죽음.
       // 다음 스테이지로
-      monsterHealthBar.classList.add("hide");
       if (level != 3) {
         document.getElementById("nextGamePage").classList.remove("hide");
         levelUp();
@@ -458,7 +459,7 @@ function nextLevelBtnListener() {
   levelClear = false;
   x = canvas.width * 0.5;
   y = canvas.height - 30;
-  monsterHealthBar.classList.remove("hide");
+  // monsterHealthBar.classList.remove("hide");
   draw();
   return;
 }
@@ -485,35 +486,33 @@ function drawLives() {
 
 //게임 오버 화면 그리기
 function drawGameOver() {
-  var gameOver = document.getElementById("gameOver");
-  monsterHealthBar.classList.add("hide");
+  var gameOver = document.getElementById("game_lose");
+  gameView.classList.add("hide");
   gameOver.classList.remove("hide");
-}
-
-//게임 오버 화면 숨기기
-function hideGameOver() {
-  var gameOver = document.getElementById("gameOver");
-  gameOver.classList.add("hide");
 }
 
 //메뉴로 돌아가기 버튼
 function menuBtnListener() {
-  hideGameOver();
+  // document.snowfall("clear"); // game_winlose.js 참고
+  document.location.reload();
+  return;
 }
 
 //재시작 버튼
 function restartBtnListener() {
+  brickInitialize();
   restart();
 }
 
 //실패한 스테이지에서 재시작
 function restart() {
-  hideGameOver();
+  var gameOver = document.getElementById("game_lose");
+  gameOver.classList.add("hide");
+  gameView.classList.remove("hide");
   lives = 6;
   levelClear = false;
   x = canvas.width * 0.5;
   y = canvas.height - 30;
-  monsterHealthBar.classList.remove("hide");
   monsterLifeGageBar.width = 420;
   draw();
 }
@@ -521,7 +520,6 @@ function restart() {
 //해당 게임 끝내기
 function endLevel() {
   return (levelClear = true);
-  // document.location.reload();
 }
 
 //스테이지 레벨 업
@@ -547,6 +545,7 @@ function levelUp() {
 
 //게임 승리 화면
 function endGamePage() {
+  gameView.classList.add("hide");
   document.getElementById("game_win").classList.remove("hide");
 }
 
@@ -672,8 +671,8 @@ function draw() {
       } else {
         x = canvas.width * 0.5;
         y = canvas.height - 30;
-        dx = 3;
-        dy = -3;
+        dx = 5;
+        dy = -5;
         paddleX = (canvas.width - paddleWidth) * 0.5;
       }
     }

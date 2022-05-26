@@ -1,105 +1,271 @@
 #ghost {
-  position:absolute;
-  width:150px;
-  top:420px;
-  left:250px;
+  position: absolute;
+  width: 150px;
+  top: 420px;
+  left: 250px;
   z-index: 1;
-  animation-delay:2s;
+  animation-delay: 2s;
   animation-name: ghost;
-  animation-duration:1.0s;
+  animation-duration: 1s;
   animation-duration: linear;
-  animation-iteration-count:infinite;
-  animation-direction:normal;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
   animation-fill-mode: forwards;
 }
 @keyframes ghost {
   0% {
-    top:420px;
-    left:250px;
+    top: 420px;
+    left: 250px;
   }
-  10%{
-    top:410px;
-    left:257px;
+  10% {
+    top: 410px;
+    left: 257px;
   }
-  20%{
-    top:400px;
-    left:264px;
+  20% {
+    top: 400px;
+    left: 264px;
   }
-  30%{
-    top:390px;
-    left:267px;
+  30% {
+    top: 390px;
+    left: 267px;
   }
-  40%{
-    top:380px;
-    left:264px;
+  40% {
+    top: 380px;
+    left: 264px;
   }
-  50%{
-    top:370px;
-    left:257px;
+  50% {
+    top: 370px;
+    left: 257px;
   }
-  60%{
-    top:380px;
-    left:250px;
+  60% {
+    top: 380px;
+    left: 250px;
   }
-  70%{
-    top:390px;
-    left:243px;
+  70% {
+    top: 390px;
+    left: 243px;
   }
-  80%{
-    top:400px;
-    left:236px;
+  80% {
+    top: 400px;
+    left: 236px;
   }
-  90%{
-    top:410px;
-    left:243px;
+  90% {
+    top: 410px;
+    left: 243px;
   }
   100% {
-    top:420px;
-    left:250px;
+    top: 420px;
+    left: 250px;
   }
 }
 
-#game_lose{
-  position:relative;
+#game_lose {
+  position: relative;
 }
 
 #stone {
   position: absolute;
-  top:0px;
-  left:300px;
-  width:150px;
+  top: 0px;
+  left: 300px;
+  width: 150px;
   animation-name: stone;
-  animation-duration:1s;
+  animation-duration: 1s;
   animation-duration: linear;
-  animation-iteration-count:1;
-  animation-direction:alternate;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
   animation-fill-mode: forwards;
 }
 
 @keyframes stone {
   0% {
-    top:0px;
+    top: 0px;
   }
 
   100% {
-    top:440px;
+    top: 440px;
   }
 }
 
-
-#game_win{
-  background-image: url("img/success_back.jpg");
+#game_win {
+  background-image: url("../img/backgrounds/success_back.jpg");
   background-size: 720px 720px;
-  width:720px;
-  height:720px;
-  position:relative;
+  width: 720px;
+  height: 720px;
+  position: relative;
 }
 
-#game_lose{
-  background-image: url("img/fail_back.jpg");
+#game_lose {
+  background-image: url("../img/backgrounds/fail_back.jpg");
   background-size: 720px 720px;
-  width:720px;
-  height:720px;
-  position:relative;
+  width: 720px;
+  height: 720px;
+  position: relative;
 }
 
+#game_lose_choose {
+  position: absolute;
+  top: 100px;
+  left: 150px;
+  width: 400px;
+  height: 230px;
+  opacity: 0;
+  border: 5px solid #4a403a;
+  border-top-width: 20px;
+  border-radius: 20px;
+  background-color: #9d9d9d;
+  animation-name: gamelosechoose;
+  animation-delay: 2s;
+  animation-duration: 2s;
+  animation-duration: linear;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes gamelosechoose {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+#game_lose_choose_content {
+  font-size: 70px;
+  width: 300px;
+  position: absolute;
+  top: 45px;
+  left: 70px;
+  height: 100px;
+  /*font-family: 'Black And White Picture', sans-serif;
+  */
+  font-family: "Jua", sans-serif;
+}
+#gamelose_home {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  top: 160px;
+  left: 50px;
+  font-size: 18px;
+  font-family: "Jua", sans-serif;
+  background-color: white;
+  border: 5px solid black;
+}
+#replay {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  top: 160px;
+  left: 250px;
+  font-size: 18px;
+  font-family: "Jua", sans-serif;
+  border: 5px solid black;
+}
+
+/*게임승리화면*/
+#winner {
+  position: absolute;
+  width: 100px;
+  top: 310px;
+  left: 315px;
+  animation-name: winner_jump;
+  animation-delay: 0.3s;
+  animation-duration: 1s;
+  animation-duration: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes winner_jump {
+  0% {
+    transform: translateY(0px);
+  }
+  10% {
+    transform: translateY(-15px);
+  }
+  20% {
+    transform: translateY(-18px);
+  }
+  30% {
+    transform: translateY(-21px);
+  }
+  40% {
+    transform: translateY(-24px);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+  60% {
+    transform: translateY(-24px);
+  }
+  70% {
+    transform: translateY(-21px);
+  }
+  80% {
+    transform: translateY(-18px);
+  }
+  90% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+#victory_logo {
+  width: 400px;
+  position: absolute;
+  top: 120px;
+  left: 160px;
+  opacity: 0;
+  animation-name: victory_logo;
+  animation-delay: 2s;
+  animation-duration: 1s;
+  animation-duration: linear;
+  animation-iteration-count: 1;
+  animation-direction: alternate;
+  animation-fill-mode: forwards;
+}
+
+@keyframes victory_logo {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+#game_win_div {
+  position: absolute;
+  top: 500px;
+  left: 150px;
+  width: 400px;
+  height: 150px;
+  border: 5px solid #4a403a;
+  border-top-width: 20px;
+  border-radius: 20px;
+  background-color: white;
+}
+#game_win_score {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  top: 20px;
+  left: 10px;
+  font-size: 50px;
+  font-family: "Jua", sans-serif;
+}
+#gamewin_home {
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  font-size: 21px;
+  top: 100px;
+  left: 260px;
+  font-family: "Jua", sans-serif;
+  border: 5px solid gray;
+  background-color: lightgray;
+  border-radius: 5px;
+}

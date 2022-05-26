@@ -28,7 +28,7 @@ canvas {
   width: 720px;
   height: 720px;
   display: flex;
-  background-image: url("img/backgrounds/background_maple_full2.png");
+  background-image: url("../img/backgrounds/background_maple_full2.png");
   position: absolute;
 }
 .hide {

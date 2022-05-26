@@ -9,7 +9,7 @@
     <script src="js/game_start.js"></script>
     <script src="js/game_winlose.js"></script>
     <script src="js/play.js"></script>
-    <script type="text/javascript" src="snowfall.jquery.js"></script>
+    <script type="text/javascript" src="js/snowfall.jquery.js"></script>
     <link rel="stylesheet" href="css/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Jua&display=swap"
@@ -149,35 +149,6 @@
         >
       </div>
 
-      <!-- 게임 화면 -->
-      <div class="game gameView hide">
-        <div id="nextGamePage" class="hide">
-          <button id="btn1" onclick="menuBtnListener()"></button>
-          <button id="nextLevel" onclick="nextLevelBtnListener()"></button>
-        </div>
-        <canvas id="myCanvas" width="480" height="720"></canvas>
-        <div id="playerInfo" style="background-color: #a9a9a9">
-          <div id="playerBar">
-            <div id="livesBar"></div>
-          </div>
-        </div>
-
-        <div id="gameOver" class="hide">
-          <img src="img/gameoverBG/gameover2.png" />
-          <button id="btn1" onclick="menuBtnListener()"></button>
-          <button id="btn2" onclick="restartBtnListener()"></button>
-        </div>
-
-        <div id="monsterHealthBar">
-          <img id="monsterHealthBar__icon" src="./img/monster.png" />
-        </div>
-
-        <div id="game_win" class="hide">
-          <h1>게임승리</h1>
-          <button id="gamewin_home">GOHOME</button>
-        </div>
-      </div>
-
       <!-- 게임 설정 -->
       <div id="setting" class="gameView hide">
         <img id="setting_home" src="img/UI/buttons/back_img.png" />
@@ -285,6 +256,34 @@
         >
       </div>
 
+      <!-- 게임 화면 -->
+      <div class="game gameView hide">
+        <canvas id="myCanvas" width="480" height="720"></canvas>
+        <div id="playerInfo" style="background-color: #a9a9a9">
+          <div id="playerBar">
+            <div id="livesBar"></div>
+          </div>
+        </div>
+
+        <!-- 게임 오버 -->
+        <!-- <div id="gameOver" class="hide">
+          <img src="img/gameoverBG/gameover2.png" />
+          <button id="btn1" onclick="menuBtnListener()"></button>
+          <button id="btn2" onclick="restartBtnListener()"></button>
+        </div> -->
+
+        <div id="monsterHealthBar">
+          <img id="monsterHealthBar__icon" src="./img/monster.png" />
+        </div>
+      </div>
+
+      <!-- 게임 시 화면 변경 (다음 스테이지로 전환, 승리, 패배) -->
+      <!-- 스테이지 전환 화면 -->
+      <div id="nextGamePage" class="hide">
+        <button id="btn1" onclick="menuBtnListener()"></button>
+        <button id="nextLevel" onclick="nextLevelBtnListener()"></button>
+      </div>
+
       <!-- 게임 승리 화면 -->
       <div id="game_win" class="hide">
         <script src="floweref.js"></script>
@@ -292,7 +291,7 @@
         <img id="victory_logo" src="img/logo/victory_edit.png" />
         <div id="game_win_div">
           <span id="game_win_score">점수: </span>
-          <button id="gamewin_home">GOHOME</button>
+          <button id="gamewin_home" onclick="menuBtnListener()">GOHOME</button>
         </div>
       </div>
 
@@ -300,8 +299,10 @@
       <div id="game_lose" class="hide">
         <div id="game_lose_choose">
           <span id="game_lose_choose_content">게임 패배</span>
-          <button id="gamelose_home">GOHOME</button>
-          <button id="replay">REPLAY</button>
+          <button id="gamelose_home" onclick="menuBtnListener()">GOHOME</button>
+          <button id="replay" onclick="restartBtnListener()">REPLAY</button>
+          <!-- <button id="gamelose_home">GOHOME</button>
+          <button id="replay">REPLAY</button> -->
         </div>
         <img id="ghost" src="img/ghost2_edit.png" />
         <img id="stone" src="img/stone_edit.png" />
