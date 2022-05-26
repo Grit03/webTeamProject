@@ -6,7 +6,6 @@ window.onload = function () {
   y = canvas.height - 30;
   paddleX = (canvas.width - paddleWidth) / 2;
   brickOffsetLeft = (canvas.width - brickWidth * 7) / 2;
-  console.log(brickOffsetLeft);
   // 몬스터 생명 게이지 객체
   monsterLifeGageBar = {
     width: 420,
@@ -32,7 +31,7 @@ window.onload = function () {
 // 전역변수
 var canvas;
 var ctx;
-var ballRadius = 10;
+var ballRadius;
 var x;
 var y;
 var dx = 3;
@@ -144,7 +143,6 @@ class Brick {
     ctx.drawImage(this.item.img, this.item.x, this.item.y, 30, 30);
   }
   itemFall() {
-    console.log(this.item.x, this.item.y);
     this.itemShow();
     this.item.y += 2;
     if (
@@ -154,7 +152,6 @@ class Brick {
       this.item.x <= paddleX + paddleWidth - 30
     ) {
       //포션 먹었을 때 기능
-      console.log(this.item.itemIndex);
       switch (this.item.itemIndex) {
         case 0:
           break;
@@ -216,10 +213,11 @@ class Effect {
 
 function brickInitialize() {
   brickColumnCount = 1;
-  ballRadius = 20;
+  ballRadius = 10;
   brickSpeed = 600;
   ballIter = 0;
   brickSpeedIter = 0;
+  effects = [];
   bricks = [];
   for (var c = 0; c < brickColumnCount; c++) {
     bricks[c] = [];
@@ -291,7 +289,6 @@ function collisionDetection() {
       if (level != 3) {
         document.getElementById("nextGamePage").classList.remove("hide");
         levelUp();
-        // console.log(level);
         monsterLifeGageBar.width = 420;
         endLevel();
         return;
