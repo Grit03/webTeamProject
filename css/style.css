@@ -17,8 +17,12 @@
 body {
   width: 100vw;
   height: 100vh;
+  font-family: "Jua", sans-serif;
   background-color: #202124;
   align-items: center;
+  background-color: #f3f4f6;
+  background-image: url("../img/backgrounds/wallpaper.jpeg");
+  background-size: 100vw 100vh;
 }
 canvas {
   background: #eee;
@@ -28,9 +32,11 @@ canvas {
   width: 720px;
   height: 720px;
   display: flex;
-  background-image: url("../img/backgrounds/background_maple_full2.png");
   position: absolute;
   cursor: url(https://cur.cursors-4u.net/games/gam-4/gam308.cur), auto;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 9px 15px 24px 4px rgba(0, 0, 0, 0.1);
 }
 .pointerCursor:hover {
   cursor: url(https://cur.cursors-4u.net/games/gam-4/gam307.ani),

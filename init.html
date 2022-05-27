@@ -147,7 +147,7 @@
           <strong>마우스 또는 방향키 버튼</strong>으로 막대를 움직여서 공을
           튕깁니다.<br />
           일정 시간 간격으로 내려오는 벽돌들을 부수고 <br />
-          상단에 있는 몬스터를 때려서 체력을 깎아야 한다.</span
+          상단에 있는 몬스터를 때려서 체력을 깎아야 합니다.</span
         >
         <span id="explanation_text2" class="item_content">
           밀려 내려오는 벽돌들을 부수고<br />
@@ -296,9 +296,26 @@
       <!-- 게임 화면 -->
       <div class="game gameView hide">
         <canvas id="myCanvas" width="480" height="720"></canvas>
-        <div id="playerInfo" style="background-color: #a9a9a9">
+        <div id="playerInfo">
+          <div class="playerInfo__profile">
+            <div class="playerInfo__profile__container">
+              <div class="profile__image__container">
+                <img
+                  src="img/characters/character1_edit.png"
+                  class="profile__image"
+                />
+              </div>
+
+              <div class="profile__level">level 1</div>
+            </div>
+          </div>
           <div id="playerBar">
+            <div class="lives__text">Lives</div>
             <div id="livesBar"></div>
+            <div class="score__text">Score</div>
+            <div id="score">0</div>
+            <div class="playerBar__item">Item</div>
+            <img id="usedItemImg" src="./" alt />
           </div>
         </div>
         <div id="monsterHealthBar">
@@ -308,26 +325,25 @@
 
       <!-- 게임 시 화면 변경 (다음 스테이지로 전환, 승리, 패배) -->
       <!-- 스테이지 전환 화면 -->
-      <div id="nextGamePage" class="hide">
+      <div id="nextGamePage" class="gameView hide">
         <button
-          class="pointerCursor"
           id="btn1"
+          class="pointerCursor"
           onclick="menuBtnListener()"
         ></button>
         <button
-          class="pointerCursor"
           id="nextLevel"
+          class="pointerCursor"
           onclick="nextLevelBtnListener()"
         ></button>
       </div>
 
       <!-- 게임 승리 화면 -->
-      <div id="game_win" class="hide">
-        <script src="floweref.js"></script>
+      <div id="game_win" class="gameView hide">
         <img id="winner" src="img/characters/character3_edit.png" />
         <img id="victory_logo" src="img/logo/victory_edit.png" />
         <div id="game_win_div">
-          <span id="game_win_score">점수: </span>
+          <span id="game_win_score"></span>
           <button
             class="pointerCursor"
             id="gamewin_home"
@@ -339,7 +355,7 @@
       </div>
 
       <!-- 게임 실패 화면 -->
-      <div id="game_lose" class="hide">
+      <div id="game_lose" class="gameView hide">
         <div id="game_lose_choose">
           <span id="game_lose_choose_content">게임 패배</span>
           <button

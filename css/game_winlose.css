@@ -250,7 +250,7 @@
 }
 #game_win_score {
   position: absolute;
-  width: 100px;
+  display: block;
   height: 50px;
   top: 20px;
   left: 10px;

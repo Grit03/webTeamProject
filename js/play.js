@@ -35,8 +35,8 @@ var ctx;
 var ballRadius;
 var x;
 var y;
-var dx = 5;
-var dy = -5;
+var dx = 4;
+var dy = -4;
 var paddleHeight = 10;
 var paddleWidth = 160;
 var paddleX;
@@ -51,7 +51,7 @@ var paddleAccelSlide = 0;
 var monster;
 var level = 1;
 var item_src = [
-  "./img/items/exp.gif",
+  "./img/items/coin.png",
   "./img/items/item_red.png",
   "./img/items/item_blue.png",
   "./img/items/item_white.png",
@@ -67,6 +67,7 @@ var brickHeight = 50;
 var brickOffsetTop = 180;
 var brickOffsetLeft;
 var score = 0;
+var preScore = 0;
 var lives = 5;
 var randomIndexArray = random();
 var max = 0;
@@ -89,6 +90,7 @@ var effects = [];
 // Sound Effect
 var ballImpact = new Audio();
 ballImpact.src = "./sounds/ballImpact.mp3";
+ballImpact.volume = 0.4;
 
 // 레벨 관련 변수
 var levelClear = false;
@@ -157,6 +159,9 @@ class Brick {
       //포션 먹었을 때 기능
       switch (this.item.itemIndex) {
         case 0:
+          // 코인 먹었을 때
+
+          score += 5;
           break;
         case 1:
           if (lives < 5) {
@@ -172,6 +177,8 @@ class Brick {
           brickSpeed = 900;
           break;
       }
+      document.getElementById("usedItemImg").src =
+        item_src[this.item.itemIndex];
       this.item.y = 0;
     }
   }
@@ -322,7 +329,7 @@ function collisionDetection() {
           //위나 아래서 올때
           dy = -dy;
           b.status = 0;
-          score++;
+          score += 3;
 
           //아이템 위치 설정
           b.item.x = b.x + brickWidth * 0.25;
@@ -347,7 +354,7 @@ function collisionDetection() {
         ) {
           dx = -dx;
           b.status = 0;
-          score++;
+          score += 3;
 
           // 아이템 위치 설정
           b.item.x = b.x + brickWidth * 0.25;
@@ -456,21 +463,20 @@ function drawEffects() {
 //다음 스테이지 버튼
 function nextLevelBtnListener() {
   document.getElementById("nextGamePage").classList.add("hide");
+  preScore = score;
   lives = 6; // 오류 있음
   levelClear = false;
   x = canvas.width * 0.5;
   y = canvas.height - 30;
-  // monsterHealthBar.classList.remove("hide");
+  clickSound.play();
   draw();
   return;
 }
 
 // 점수 표시
-// function drawScore() {
-//   ctx.font = "16px Arial";
-//   ctx.fillStyle = "#0095DD";
-//   ctx.fillText("Score: " + score, 8, 20);
-// }
+function updateScore() {
+  document.getElementById("score").innerHTML = score;
+}
 
 // 목숨 하트로 표시
 function drawLives() {
@@ -495,12 +501,15 @@ function drawGameOver() {
 //메뉴로 돌아가기 버튼
 function menuBtnListener() {
   // document.snowfall("clear"); // game_winlose.js 참고
-  document.location.reload();
-  return;
+  clickSound.play();
+  clickSound.addEventListener("ended", (event) => {
+    document.location.reload();
+  });
 }
 
 //재시작 버튼
 function restartBtnListener() {
+  clickSound.play();
   brickInitialize();
   restart();
 }
@@ -510,6 +519,7 @@ function restart() {
   var gameOver = document.getElementById("game_lose");
   gameOver.classList.add("hide");
   gameView.classList.remove("hide");
+  score = preScore;
   lives = 6;
   levelClear = false;
   x = canvas.width * 0.5;
@@ -520,6 +530,7 @@ function restart() {
 
 //해당 게임 끝내기
 function endLevel() {
+  score += 100;
   return (levelClear = true);
 }
 
@@ -548,6 +559,7 @@ function levelUp() {
 function endGamePage() {
   gameView.classList.add("hide");
   document.getElementById("game_win").classList.remove("hide");
+  document.getElementById("game_win_score").innerHTML = "점수 : " + score;
 }
 
 //캔버스에 전체 그리기
@@ -562,6 +574,7 @@ function draw() {
   drawLives();
   collisionDetection();
   drawEffects();
+  updateScore();
 
   if (levelClear) {
     return;
@@ -672,8 +685,8 @@ function draw() {
       } else {
         x = canvas.width * 0.5;
         y = canvas.height - 30;
-        dx = 5;
-        dy = -5;
+        dx = 4;
+        dy = -4;
         paddleX = (canvas.width - paddleWidth) * 0.5;
       }
     }
