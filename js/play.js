@@ -7,6 +7,7 @@ window.onload = function () {
   y = canvas.height - 30;
   paddleX = (canvas.width - paddleWidth) / 2;
   brickOffsetLeft = (canvas.width - brickWidth * 7) / 2;
+  document.querySelector(".profile__level").innerHTML = "level " + level;
   // 몬스터 생명 게이지 객체
   monsterLifeGageBar = {
     width: 420,
@@ -16,7 +17,7 @@ window.onload = function () {
     barBottomY: 180,
   };
   ctx.drawImage(background, 0, 0);
-  monster = new Monster("./img/monsters/boss1.gif");
+  monster = new Monster("./img/monsters/boss" + level + ".gif");
   monster.monsterImage.addEventListener("load", function () {
     monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
     monster.y = 150 - monster.monsterImage.height;
@@ -80,9 +81,12 @@ var monsterLifeGageBar;
 
 // 배경
 var background = new Image();
-background.src = "./img/backgrounds/background1.png";
-var bgmLocation;
 var bgm = new Audio();
+bgm.volume = 0.3;
+
+// 배경 음악 선택용 임시 오디오 객체
+var tempBgm = new Audio();
+tempBgm.volume = 0.3;
 
 // 효과
 var effects = [];
@@ -90,7 +94,15 @@ var effects = [];
 // Sound Effect
 var ballImpact = new Audio();
 ballImpact.src = "./sounds/ballImpact.mp3";
-ballImpact.volume = 0.4;
+ballImpact.volume = 0.3;
+
+var levelUpSoundEffect = new Audio();
+levelUpSoundEffect.src = "./sounds/levelUp.mp3";
+levelUpSoundEffect.volume = 0.5;
+
+var healthLoss = new Audio();
+healthLoss.src = "./sounds/loss.mp3";
+healthLoss.volume = 0.5;
 
 // 레벨 관련 변수
 var levelClear = false;
@@ -102,14 +114,18 @@ class Item {
     this.x = 0;
     this.y = 0;
     this.img = new Image();
-
+    this.soundEffect = new Audio();
+    this.soundEffect.src = "./sounds/bottle.mp3";
+    this.soundEffect.volume = 0.5;
     if (randomPosition >= 1 && randomPosition <= 7) {
       // coin 이미지
       this.img.src = item_src[0];
       this.itemIndex = 0;
+      this.soundEffect.src = "./sounds/coin.mp3";
     } else if (randomPosition == 8) {
       this.img.src = item_src[1];
       this.itemIndex = 1;
+      this.soundEffect.src = "./sounds/cured.mp3";
     } else if (randomPosition == 9) {
       this.img.src = item_src[2];
       this.itemIndex = 2;
@@ -160,19 +176,22 @@ class Brick {
       switch (this.item.itemIndex) {
         case 0:
           // 코인 먹었을 때
-
+          this.item.soundEffect.play();
           score += 5;
           break;
         case 1:
+          this.item.soundEffect.play();
           if (lives < 5) {
             lives++;
           }
           break;
         case 2:
+          this.item.soundEffect.play();
           ballIter = 2;
           ballRadius = 20;
           break;
         case 3:
+          this.item.soundEffect.play();
           brickSpeedIter = 2;
           brickSpeed = 900;
           break;
@@ -288,9 +307,9 @@ function collisionDetection() {
   if (y <= monsterLifeGageBar.barBottomY + ballRadius) {
     dy = -dy;
     var bricksStartLocation = (canvas.width - brickWidth * 7) / 2;
-    // 벽돌 범위 내의 x 좌표를 가지는 바를 맞추면 몬스터 게이지 감소
-    if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
-    }
+    // // 벽돌 범위 내의 x 좌표를 가지는 바를 맞추면 몬스터 게이지 감소
+    // if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
+    // }
     monsterLifeGageBar.width = monsterLifeGageBar.width - attack_damage;
     if (monsterLifeGageBar.width <= 0) {
       // 몬스터 죽음.
@@ -298,6 +317,7 @@ function collisionDetection() {
       if (level != 3) {
         document.getElementById("nextGamePage").classList.remove("hide");
         levelUp();
+        levelUpSoundEffect.play();
         monsterLifeGageBar.width = 420;
         endLevel();
         return;
@@ -464,10 +484,12 @@ function drawEffects() {
 function nextLevelBtnListener() {
   document.getElementById("nextGamePage").classList.add("hide");
   preScore = score;
-  lives = 6; // 오류 있음
+  lives = 5;
   levelClear = false;
-  x = canvas.width * 0.5;
+  x = canvas.width / 2;
   y = canvas.height - 30;
+  dx = 4;
+  dy = -4;
   clickSound.play();
   draw();
   return;
@@ -520,10 +542,12 @@ function restart() {
   gameOver.classList.add("hide");
   gameView.classList.remove("hide");
   score = preScore;
-  lives = 6;
+  lives = 5;
   levelClear = false;
-  x = canvas.width * 0.5;
+  x = canvas.width / 2;
   y = canvas.height - 30;
+  dx = 4;
+  dy = -4;
   monsterLifeGageBar.width = 420;
   draw();
 }
@@ -531,6 +555,7 @@ function restart() {
 //해당 게임 끝내기
 function endLevel() {
   score += 100;
+  document.querySelector(".profile__level").innerHTML = "level " + level;
   return (levelClear = true);
 }
 
@@ -574,6 +599,7 @@ function draw() {
   drawLives();
   collisionDetection();
   drawEffects();
+
   updateScore();
 
   if (levelClear) {
@@ -649,7 +675,7 @@ function draw() {
   if (y <= ballRadius) {
     dy = -dy;
     ballImpact.play();
-  } else if (y >= canvas.height - ballRadius) {
+  } else if (y > canvas.height - ballRadius) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       //파란 포션(볼 크기) 지속 시간
       if (ballIter > 0) {
@@ -678,12 +704,13 @@ function draw() {
         ballImpact.play();
       }
     } else {
+      healthLoss.play();
       lives--;
       if (!lives) {
         drawGameOver();
         return;
       } else {
-        x = canvas.width * 0.5;
+        x = canvas.width / 2;
         y = canvas.height - 30;
         dx = 4;
         dy = -4;
@@ -697,5 +724,4 @@ function draw() {
 
   drawBall();
   timeId = requestAnimationFrame(draw);
-  console.log(level);
 }

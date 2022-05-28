@@ -1,8 +1,36 @@
 $(document).ready(function () {
-  $("#soundoff_btn").click(function () {
-    $("#background_audio").attr("muted", "muted");
-  });
   $("#soundon_btn").click(function () {
-    $("#background_audio").removeAttr("muted");
+    tempBgm.pause();
+    tempBgm.currentTime = 0;
+    introBgm.play();
+  });
+  $("#soundoff_btn").click(function () {
+    $("input[name=background_sound]").each(function (index, item) {
+      $(item).prop("checked", false);
+      console.log($(item));
+      console.log($(item).prop("checked"));
+    });
+    tempBgm.pause();
+    tempBgm.currentTime = 0;
+    introBgm.pause();
+    introBgm.currentTime = 0;
+  });
+  $("#backsound1").click(function () {
+    introBgm.pause();
+    introBgm.currentTime = 0;
+    tempBgm.src = $(this).val();
+    tempBgm.play();
+  });
+  $("#backsound2").click(function () {
+    introBgm.pause();
+    introBgm.currentTime = 0;
+    tempBgm.src = $(this).val();
+    tempBgm.play();
+  });
+  $("#backsound3").click(function () {
+    introBgm.pause();
+    introBgm.currentTime = 0;
+    tempBgm.src = $(this).val();
+    tempBgm.play();
   });
 });

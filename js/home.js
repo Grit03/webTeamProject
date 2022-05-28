@@ -1,6 +1,5 @@
 $(document).ready(function () {
   var buttons = document.getElementsByClassName("pointerCursor");
-  console.log(buttons);
   for (var i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", function () {
       clickSound.play();
@@ -38,17 +37,20 @@ $(document).ready(function () {
   );
 
   $("#home_menu1_span").click(function () {
-    introBgm.play();
+    if ((tempBgm.paused || tempBgm.src == "") && $("#sound_on").is(":checked"))
+      introBgm.play();
     $("#game_start").removeClass("hide");
     $("#home").addClass("hide");
   });
   $("#home_menu2_span").click(function () {
-    introBgm.play();
+    if ((tempBgm.paused || tempBgm.src == "") && $("#sound_on").is(":checked"))
+      introBgm.play();
     $("#explanation").removeClass("hide");
     $("#home").addClass("hide");
   });
   $("#home_menu3_span").click(function () {
-    introBgm.play();
+    if ((tempBgm.paused || tempBgm.src == "") && $("#sound_on").is(":checked"))
+      introBgm.play();
     $("#setting").removeClass("hide");
     $("#home").addClass("hide");
   });

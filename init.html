@@ -157,11 +157,11 @@
           공을 놓치면 생명 -1. 플레이어의 생명이 0이 되거나<br />
           밀려내려오는 벽돌들이 바닥에 닿으면 게임 패배!</span
         >
-        <span id="item_content2" class="item_content">
-          파란포션<br />
-          공 크기 증가</span
-        >
         <span id="item_content1" class="item_content">
+          파란 포션<br />
+          공 크기 증가
+        </span>
+        <span id="item_content2" class="item_content">
           빨간 포션<br />
           체력을 +1 증가</span
         >
@@ -184,6 +184,8 @@
         <img id="maple1" class="maple_img" src="img/logo/maple_edit.png" />
         <img id="maple2" class="maple_img" src="img/logo/maple_edit.png" />
         <img id="maple3" class="maple_img" src="img/logo/maple_edit.png" />
+
+        <!-- 배경 음악 설정 on, off-->
         <input
           id="sound_on"
           type="radio"
@@ -203,24 +205,24 @@
           >OFF</label
         >
 
+        <!-- 배경 음악 종류 설정 -->
         <input
           id="backsound1"
           type="radio"
           name="background_sound"
-          value="backsound1"
-          checked="checked"
+          value="sounds/background_music1.mp3"
         />
         <input
           id="backsound2"
           type="radio"
           name="background_sound"
-          value="backsound2"
+          value="sounds/background_music2.mp3"
         />
         <input
           id="backsound3"
           type="radio"
           name="background_sound"
-          value="backsound3"
+          value="sounds/background_music3.mp3"
         />
         <label
           id="backsound1_btn"
@@ -241,9 +243,26 @@
           >Music3</label
         >
 
-        <input id="thema1" type="radio" name="thema" checked="checked" />
-        <input id="thema2" type="radio" name="thema" />
-        <input id="thema3" type="radio" name="thema" />
+        <!-- 배경 테마 -->
+        <input
+          id="thema1"
+          type="radio"
+          name="thema"
+          checked="checked"
+          value="img/backgrounds/ludibrium1.jpg"
+        />
+        <input
+          id="thema2"
+          type="radio"
+          name="thema"
+          value="img/backgrounds/ludibrium2.jpg"
+        />
+        <input
+          id="thema3"
+          type="radio"
+          name="thema"
+          value="img/backgrounds/ludibrium3.jpg"
+        />
         <span id="thema_span">배경테마</span>
         <label class="pointerCursor" id="thema1_btn" for="thema1">
           <img
@@ -264,14 +283,26 @@
           /><br />배경3</label
         >
 
+        <!-- 캐릭터 선택 -->
         <input
           id="character1"
           type="radio"
           name="character"
           checked="checked"
+          value="img/characters/character1_edit.png"
         />
-        <input id="character2" type="radio" name="character" />
-        <input id="character3" type="radio" name="character" />
+        <input
+          id="character2"
+          type="radio"
+          name="character"
+          value="img/characters/character2_edit.png"
+        />
+        <input
+          id="character3"
+          type="radio"
+          name="character"
+          value="img/characters/character3_edit.png"
+        />
         <span id="character_span">캐릭터선택</span>
         <label class="pointerCursor" id="character1_btn" for="character1">
           <img
@@ -300,10 +331,7 @@
           <div class="playerInfo__profile">
             <div class="playerInfo__profile__container">
               <div class="profile__image__container">
-                <img
-                  src="img/characters/character1_edit.png"
-                  class="profile__image"
-                />
+                <img class="profile__image" />
               </div>
 
               <div class="profile__level">level 1</div>
