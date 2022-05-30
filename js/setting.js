@@ -7,8 +7,6 @@ $(document).ready(function () {
   $("#soundoff_btn").click(function () {
     $("input[name=background_sound]").each(function (index, item) {
       $(item).prop("checked", false);
-      console.log($(item));
-      console.log($(item).prop("checked"));
     });
     tempBgm.pause();
     tempBgm.currentTime = 0;

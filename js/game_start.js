@@ -14,6 +14,7 @@ $(document).ready(function () {
   }
   $("#level1").click(function () {
     gameStartInitializer();
+    monsterInitializer(monster);
     introBgm.pause();
     introBgm.currentTime = 0;
     if (!tempBgm.paused) {
@@ -26,8 +27,9 @@ $(document).ready(function () {
   });
 
   $("#level2").click(function () {
-    gameStartInitializer();
     level = 2;
+    gameStartInitializer();
+    monsterInitializer(monster);
     paddleWidth = 120;
     attack_damage = 55;
     brickSpeed = 400;
@@ -44,8 +46,9 @@ $(document).ready(function () {
   });
 
   $("#level3").click(function () {
-    gameStartInitializer();
     level = 3;
+    gameStartInitializer();
+    monsterInitializer(monster);
     paddleWidth = 80;
     attack_damage = 40;
     brickSpeed = 200;

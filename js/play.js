@@ -3,12 +3,20 @@ window.onload = function () {
   canvas = document.getElementById("myCanvas");
   ctx = canvas.getContext("2d");
   gameView = document.querySelector(".game");
-  console.log(character);
   x = canvas.width / 2;
   y = canvas.height - 50;
   paddleX = (canvas.width - paddleWidth) / 2;
   brickOffsetLeft = (canvas.width - brickWidth * 7) / 2;
   document.querySelector(".profile__level").innerHTML = "level " + level;
+  monster = new Monster("./img/monsters/boss" + level + ".gif");
+  monster.monsterImage.addEventListener("load", function () {
+    monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
+    monster.y = 150 - monster.monsterImage.height;
+  });
+  monster.hitImage.addEventListener("load", function () {
+    monster.hitX = (canvas.width - monster.hitImage.width) * 0.5;
+    monster.hity = 150 - monster.hitImage.height;
+  });
   // 몬스터 생명 게이지 객체
   monsterLifeGageBar = {
     width: 420,
@@ -18,11 +26,6 @@ window.onload = function () {
     barBottomY: 180,
   };
   ctx.drawImage(background, 0, 0);
-  monster = new Monster("./img/monsters/boss" + level + ".gif");
-  monster.monsterImage.addEventListener("load", function () {
-    monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
-    monster.y = 150 - monster.monsterImage.height;
-  });
 
   // 키보드 입력 처리
   document.addEventListener("keydown", keyDownHandler, false);
@@ -38,15 +41,15 @@ var ballRadius;
 var ballRadiusDefault=10;
 var x;
 var y;
-var dx = 4;
-var dy = -4;
+var dx = 3;
+var dy = -3;
 var paddleHeight = 20;
 var paddleWidth = 160;
 var paddleX;
 var rightPressed = false;
 var leftPressed = false;
 var timeId;
-var speed = 4 * Math.sqrt(2);
+var speed = 3 * Math.sqrt(2);
 var paddleAccel = 6;
 var AccelPlus = 0.4;
 var maxAccel = 18;
@@ -81,6 +84,7 @@ var ballIter = 0;
 
 // 몬스터 생명 게이지 객체
 var monsterLifeGageBar;
+var pauseTimer = 0;
 
 // 배경
 var background = new Image();
@@ -118,6 +122,20 @@ ballImg.src = 'img/balls/character1_weapon.png';
 // 레벨 관련 변수
 var levelClear = false;
 
+var monster
+function monsterInitializer(monster){
+  monster.monsterImage.src = "./img/monsters/boss" + level + ".gif";
+  monster.hitImage.src = "./img/monsters/boss" + level + "_hit.gif";
+  monster.monsterImage.addEventListener("load", function () {
+    monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
+    monster.y = 150 - monster.monsterImage.height;
+  });
+  monster.hitImage.addEventListener("load", function () {
+    monster.hitX = (canvas.width - monster.hitImage.width) * 0.5;
+    monster.hity = 150 - monster.hitImage.height;
+  });
+}
+
 // 이미지 클래스
 class Item {
   constructor() {
@@ -153,9 +171,24 @@ class Monster {
     this.x = 0;
     this.y = 0;
     this.monsterImage = new Image();
+    this.hitImage = new Image();
     this.monsterImage.src = src;
+    this.hit = false;
+    this.hitImage.src = "./img/monsters/boss" + level + "_hit.gif";
+    this.hitX = 0;
+    this.hity = 0;
+
   }
   draw() {
+    if(pauseTimer<35 && this.hit){
+      ctx.drawImage(this.hitImage, this.hitX, this.hity);
+      pauseTimer++;
+      if(pauseTimer == 35){
+        pauseTimer = 0;
+        this.hit = false;
+      }
+      return;
+    }
     ctx.drawImage(this.monsterImage, this.x, this.y);
   }
 }
@@ -178,8 +211,8 @@ class Brick {
     this.itemShow();
     this.item.y += 2;
     if (
-      this.item.y >= canvas.height - paddleHeight - 30 &&
-      this.item.y <= canvas.height - 30 &&
+      this.item.y >= canvas.height - paddleHeight - 15 &&
+      this.item.y <= canvas.height - 15 &&
       this.item.x >= paddleX - 15 &&
       this.item.x <= paddleX + paddleWidth - 15
     ) {
@@ -324,16 +357,7 @@ function collisionDetection() {
     // }
     monsterLifeGageBar.width = monsterLifeGageBar.width - attack_damage;
     hitImpact.play();
-    setTimeout(function(){ monster = new Monster("./img/monsters/boss" + level + ".gif");
-      monster.monsterImage.addEventListener("load", function () {
-      monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
-      monster.y = 150 - monster.monsterImage.height;
-  }); }, 500);
-    monster = new Monster("./img/monsters/boss" + level + "_hit.gif");
-    monster.monsterImage.addEventListener("load", function () {
-      monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
-      monster.y = 150 - monster.monsterImage.height;
-  });
+    monster.hit = true;
     if (monsterLifeGageBar.width <= 0) {
       // 몬스터 죽음.
       // 다음 스테이지로
@@ -506,14 +530,15 @@ function drawEffects() {
 
 //다음 스테이지 버튼
 function nextLevelBtnListener() {
+  monsterInitializer(monster);
   document.getElementById("nextGamePage").classList.add("hide");
   preScore = score;
   lives = 5;
   levelClear = false;
   x = canvas.width / 2;
   y = canvas.height - 50;
-  dx = 4;
-  dy = -4;
+  dx = 3;
+  dy = -3;
   clickSound.play();
   draw();
   return;
@@ -570,8 +595,8 @@ function restart() {
   levelClear = false;
   x = canvas.width / 2;
   y = canvas.height - 50;
-  dx = 4;
-  dy = -4;
+  dx = 3;
+  dy = -3;
   monsterLifeGageBar.width = 420;
   draw();
 }
@@ -585,12 +610,15 @@ function endLevel() {
 
 //스테이지 레벨 업
 function levelUp() {
+  monster.hit = false;
+  pauseTimer = 0;
   if (level == 1) {
     level = 2;
     paddleWidth = 120;
     attack_damage = 55;
     brickSpeed = 400;
     brickInitialize();
+    monsterInitializer(monster);
     return;
   } else if (level == 2) {
     level = 3;
@@ -598,6 +626,7 @@ function levelUp() {
     attack_damage = 40;
     brickSpeed = 200;
     brickInitialize();
+    monsterInitializer(monster);
     return;
   } else {
     endGamePage();
@@ -730,8 +759,8 @@ function draw() {
       } else {
         x = canvas.width / 2;
         y = canvas.height - 50;
-        dx = 4;
-        dy = -4;
+        dx = 3;
+        dy = -3;
         paddleX = (canvas.width - paddleWidth) * 0.5;
       }
     }
