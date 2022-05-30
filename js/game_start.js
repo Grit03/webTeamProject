@@ -69,6 +69,8 @@ function getCheckedInputValue(nameAttrVal) {
   $(selector).each(function (index, item) {
     if ($(item).is(":checked")) {
       str = $(item).val();
+      character = $(item).attr("id");
+      ballImg.src = 'img/balls/' + character + '_weapon.png';
     }
   });
   return str;

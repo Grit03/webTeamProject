@@ -3,8 +3,9 @@ window.onload = function () {
   canvas = document.getElementById("myCanvas");
   ctx = canvas.getContext("2d");
   gameView = document.querySelector(".game");
+  console.log(character);
   x = canvas.width / 2;
-  y = canvas.height - 30;
+  y = canvas.height - 50;
   paddleX = (canvas.width - paddleWidth) / 2;
   brickOffsetLeft = (canvas.width - brickWidth * 7) / 2;
   document.querySelector(".profile__level").innerHTML = "level " + level;
@@ -34,18 +35,19 @@ var canvas;
 var gameView;
 var ctx;
 var ballRadius;
+var ballRadiusDefault=10;
 var x;
 var y;
 var dx = 4;
 var dy = -4;
-var paddleHeight = 10;
+var paddleHeight = 20;
 var paddleWidth = 160;
 var paddleX;
 var rightPressed = false;
 var leftPressed = false;
 var timeId;
-var speed = 3 * Math.sqrt(2);
-var paddleAccel = 3;
+var speed = 4 * Math.sqrt(2);
+var paddleAccel = 6;
 var AccelPlus = 0.4;
 var maxAccel = 18;
 var paddleAccelSlide = 0;
@@ -58,6 +60,7 @@ var item_src = [
   "./img/items/item_white.png",
 ];
 var attack_damage = 70;
+var character;
 
 // 벽돌 & 공 관련 전역 함수
 var bricks;
@@ -103,6 +106,14 @@ levelUpSoundEffect.volume = 0.5;
 var healthLoss = new Audio();
 healthLoss.src = "./sounds/loss.mp3";
 healthLoss.volume = 0.5;
+
+var hitImpact = new Audio();
+hitImpact.src = "./sounds/boss_hit.wav";
+hitImpact.volume =0.3;
+
+//볼 이미지
+var ballImg = new Image();
+ballImg.src = 'img/balls/character1_weapon.png';
 
 // 레벨 관련 변수
 var levelClear = false;
@@ -169,14 +180,15 @@ class Brick {
     if (
       this.item.y >= canvas.height - paddleHeight - 30 &&
       this.item.y <= canvas.height - 30 &&
-      this.item.x >= paddleX &&
-      this.item.x <= paddleX + paddleWidth - 30
+      this.item.x >= paddleX - 15 &&
+      this.item.x <= paddleX + paddleWidth - 15
     ) {
       //포션 먹었을 때 기능
       switch (this.item.itemIndex) {
         case 0:
           // 코인 먹었을 때
           this.item.soundEffect.play();
+          ballIter = 2;
           score += 5;
           break;
         case 1:
@@ -188,7 +200,7 @@ class Brick {
         case 2:
           this.item.soundEffect.play();
           ballIter = 2;
-          ballRadius = 20;
+          ballRadius = ballRadiusDefault*2;
           break;
         case 3:
           this.item.soundEffect.play();
@@ -242,7 +254,7 @@ class Effect {
 
 function brickInitialize() {
   brickColumnCount = 1;
-  ballRadius = 10;
+  ballRadius = ballRadiusDefault;
   brickSpeed = 600;
   ballIter = 0;
   brickSpeedIter = 0;
@@ -311,6 +323,17 @@ function collisionDetection() {
     // if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
     // }
     monsterLifeGageBar.width = monsterLifeGageBar.width - attack_damage;
+    hitImpact.play();
+    setTimeout(function(){ monster = new Monster("./img/monsters/boss" + level + ".gif");
+      monster.monsterImage.addEventListener("load", function () {
+      monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
+      monster.y = 150 - monster.monsterImage.height;
+  }); }, 500);
+    monster = new Monster("./img/monsters/boss" + level + "_hit.gif");
+    monster.monsterImage.addEventListener("load", function () {
+      monster.x = (canvas.width - monster.monsterImage.width) * 0.5;
+      monster.y = 150 - monster.monsterImage.height;
+  });
     if (monsterLifeGageBar.width <= 0) {
       // 몬스터 죽음.
       // 다음 스테이지로
@@ -395,8 +418,9 @@ function collisionDetection() {
 //공 그리기
 function drawBall() {
   ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#0095DD";
+  ctx.drawImage(ballImg,x-ballRadius,y-ballRadius,ballRadius*2 ,ballRadius*2);
+  // ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+  // ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
 }
@@ -405,7 +429,7 @@ function drawBall() {
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = "#964b00";
   ctx.fill();
   ctx.closePath();
 }
@@ -487,7 +511,7 @@ function nextLevelBtnListener() {
   lives = 5;
   levelClear = false;
   x = canvas.width / 2;
-  y = canvas.height - 30;
+  y = canvas.height - 50;
   dx = 4;
   dy = -4;
   clickSound.play();
@@ -545,7 +569,7 @@ function restart() {
   lives = 5;
   levelClear = false;
   x = canvas.width / 2;
-  y = canvas.height - 30;
+  y = canvas.height - 50;
   dx = 4;
   dy = -4;
   monsterLifeGageBar.width = 420;
@@ -585,6 +609,7 @@ function endGamePage() {
   gameView.classList.add("hide");
   document.getElementById("game_win").classList.remove("hide");
   document.getElementById("game_win_score").innerHTML = "점수 : " + score;
+  $("#game_win").snowfall({flakeCount : 800, maxSpeed : 5, maxSize : 5});
 }
 
 //캔버스에 전체 그리기
@@ -667,21 +692,14 @@ function draw() {
     paddleAccel = 0;
   }
 
-  //공이 화면에 부딪히면 방향 변경
-  if (x >= canvas.width - ballRadius || x <= ballRadius) {
-    dx = -dx;
-    ballImpact.play();
-  }
-  if (y <= ballRadius) {
-    dy = -dy;
-    ballImpact.play();
-  } else if (y > canvas.height - ballRadius) {
+  //공이 패들에 닿으면 dx, dy 설정
+  if (y >= canvas.height - ballRadius - paddleHeight) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       //파란 포션(볼 크기) 지속 시간
       if (ballIter > 0) {
         ballIter--;
       } else {
-        ballRadius = 10;
+        ballRadius = ballRadiusDefault;
       }
       //흰 포션(벽돌 하강 속도) 지속 시간
       if (brickSpeedIter > 0) {
@@ -711,13 +729,34 @@ function draw() {
         return;
       } else {
         x = canvas.width / 2;
-        y = canvas.height - 30;
+        y = canvas.height - 50;
         dx = 4;
         dy = -4;
         paddleX = (canvas.width - paddleWidth) * 0.5;
       }
     }
   }
+
+
+
+
+  //공이 화면에 부딪히면 방향 변경
+  if(x>canvas.width-ballRadius){
+    x=canvas.width-ballRadius;
+    dx=-dx;
+    ballImpact.play();
+  }
+  if(x<ballRadius){
+    x=ballRadius;
+    dx=-dx;
+    ballImpact.play();
+  }
+  if (y < ballRadius) {
+    y=ballRadius;
+    dy = -dy;
+    ballImpact.play();
+  }
+
 
   x += dx;
   y += dy;
