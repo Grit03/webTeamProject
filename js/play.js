@@ -38,7 +38,7 @@ var canvas;
 var gameView;
 var ctx;
 var ballRadius;
-var ballRadiusDefault=10;
+var ballRadiusDefault = 10;
 var x;
 var y;
 var dx = 3;
@@ -113,17 +113,17 @@ healthLoss.volume = 0.5;
 
 var hitImpact = new Audio();
 hitImpact.src = "./sounds/boss_hit.wav";
-hitImpact.volume =0.3;
+hitImpact.volume = 0.3;
 
 //볼 이미지
 var ballImg = new Image();
-ballImg.src = 'img/balls/character1_weapon.png';
+ballImg.src = "img/balls/character1_weapon.png";
 
 // 레벨 관련 변수
 var levelClear = false;
 
-var monster
-function monsterInitializer(monster){
+var monster;
+function monsterInitializer(monster) {
   monster.monsterImage.src = "./img/monsters/boss" + level + ".gif";
   monster.hitImage.src = "./img/monsters/boss" + level + "_hit.gif";
   monster.monsterImage.addEventListener("load", function () {
@@ -177,13 +177,12 @@ class Monster {
     this.hitImage.src = "./img/monsters/boss" + level + "_hit.gif";
     this.hitX = 0;
     this.hity = 0;
-
   }
   draw() {
-    if(pauseTimer<35 && this.hit){
+    if (pauseTimer < 35 && this.hit) {
       ctx.drawImage(this.hitImage, this.hitX, this.hity);
       pauseTimer++;
-      if(pauseTimer == 35){
+      if (pauseTimer == 35) {
         pauseTimer = 0;
         this.hit = false;
       }
@@ -233,7 +232,7 @@ class Brick {
         case 2:
           this.item.soundEffect.play();
           ballIter = 2;
-          ballRadius = ballRadiusDefault*2;
+          ballRadius = ballRadiusDefault * 2;
           break;
         case 3:
           this.item.soundEffect.play();
@@ -442,7 +441,13 @@ function collisionDetection() {
 //공 그리기
 function drawBall() {
   ctx.beginPath();
-  ctx.drawImage(ballImg,x-ballRadius,y-ballRadius,ballRadius*2 ,ballRadius*2);
+  ctx.drawImage(
+    ballImg,
+    x - ballRadius,
+    y - ballRadius,
+    ballRadius * 2,
+    ballRadius * 2
+  );
   // ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
   // ctx.fillStyle = "#0095DD";
   ctx.fill();
@@ -638,7 +643,7 @@ function endGamePage() {
   gameView.classList.add("hide");
   document.getElementById("game_win").classList.remove("hide");
   document.getElementById("game_win_score").innerHTML = "점수 : " + score;
-  $("#game_win").snowfall({flakeCount : 800, maxSpeed : 5, maxSize : 5});
+  $("#game_win").snowfall({ flakeCount: 800, maxSpeed: 5, maxSize: 5 });
 }
 
 //캔버스에 전체 그리기
@@ -675,7 +680,6 @@ function draw() {
   // 벽돌이 바닥에 닿으면 게임오버
   if (max >= 690) {
     drawGameOver();
-    document.location.reload();
     return;
   }
 
@@ -766,26 +770,22 @@ function draw() {
     }
   }
 
-
-
-
   //공이 화면에 부딪히면 방향 변경
-  if(x>canvas.width-ballRadius){
-    x=canvas.width-ballRadius;
-    dx=-dx;
+  if (x > canvas.width - ballRadius) {
+    x = canvas.width - ballRadius;
+    dx = -dx;
     ballImpact.play();
   }
-  if(x<ballRadius){
-    x=ballRadius;
-    dx=-dx;
+  if (x < ballRadius) {
+    x = ballRadius;
+    dx = -dx;
     ballImpact.play();
   }
   if (y < ballRadius) {
-    y=ballRadius;
+    y = ballRadius;
     dy = -dy;
     ballImpact.play();
   }
-
 
   x += dx;
   y += dy;
