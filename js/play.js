@@ -295,7 +295,7 @@ function brickInitialize() {
   for (var row = 0; row < brickRowCount; row++) {
     bricks[row] = [];
     for (var col = 0; col < brickColumnCount; col++) {
-      if (randomIndexArray.indexOf(col) > 0) {
+      if (randomIndexArray.indexOf(col) >= 0) {
         bricks[row][col] = new Brick(1);
       } else {
         bricks[row][col] = new Brick(0);
@@ -309,7 +309,7 @@ function random() {
   var randomIndexArray = [];
   var randomCount = Math.floor(Math.random() * (brickColumnCount - 3) + 2);
   for (var i = 0; i < randomCount; i++) {
-    var randomNum = Math.floor(Math.random() * (brickColumnCount));
+    var randomNum = Math.floor(Math.random() * brickColumnCount);
     if (randomIndexArray.indexOf(randomNum) === -1) {
       randomIndexArray.push(randomNum);
     } else {
@@ -498,7 +498,7 @@ function setbrickRowCount() {
 
   bricks[brickRowCount] = [];
   for (var col = 0; col < brickColumnCount; col++) {
-    if (randomIndexArray.indexOf(col) > 0) {
+    if (randomIndexArray.indexOf(col) >= 0) {
       bricks[brickRowCount][col] = new Brick(1);
     } else {
       bricks[brickRowCount][col] = new Brick(0);
