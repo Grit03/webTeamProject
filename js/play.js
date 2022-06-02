@@ -67,8 +67,8 @@ var character;
 
 // 벽돌 & 공 관련 전역 함수
 var bricks;
-var brickRowCount = 7;
-var brickColumnCount = 1;
+var brickColumnCount = 7;
+var brickRowCount = 1;
 var brickWidth = 50;
 var brickHeight = 50;
 var brickOffsetTop = 180;
@@ -285,16 +285,16 @@ class Effect {
 }
 
 function brickInitialize() {
-  brickColumnCount = 1;
+  brickRowCount = 1;
   ballRadius = ballRadiusDefault;
   brickSpeed = 600;
   ballIter = 0;
   brickSpeedIter = 0;
   effects = [];
   bricks = [];
-  for (var c = 0; c < brickColumnCount; c++) {
+  for (var c = 0; c < brickRowCount; c++) {
     bricks[c] = [];
-    for (var r = 0; r < brickRowCount; r++) {
+    for (var r = 0; r < brickColumnCount; r++) {
       if (randomIndexArray.indexOf(r) > 0) {
         bricks[c][r] = new Brick(1);
       } else {
@@ -307,9 +307,9 @@ function brickInitialize() {
 // n개의 랜덤 인덱스 생성하는 함수
 function random() {
   var randomIndexArray = [];
-  var randomCount = Math.floor(Math.random() * (brickRowCount - 3) + 2);
+  var randomCount = Math.floor(Math.random() * (brickColumnCount - 3) + 2);
   for (var i = 0; i < randomCount; i++) {
-    var randomNum = Math.floor(Math.random() * (brickRowCount + 1));
+    var randomNum = Math.floor(Math.random() * (brickColumnCount + 1));
     if (randomIndexArray.indexOf(randomNum) === -1) {
       randomIndexArray.push(randomNum);
     } else {
@@ -376,8 +376,8 @@ function collisionDetection() {
     }
   }
 
-  for (var c = 0; c < brickColumnCount; c++) {
-    for (var r = 0; r < brickRowCount; r++) {
+  for (var c = 0; c < brickRowCount; c++) {
+    for (var r = 0; r < brickColumnCount; r++) {
       var b = bricks[c][r];
       if (b.status == 1) {
         // 박스에 맞을 때
@@ -466,13 +466,13 @@ function drawPaddle() {
 // 벽돌 그리기
 function drawBricks() {
   if (timeId % brickSpeed === 0) {
-    setBrickColumnCount();
+    setbrickRowCount();
   }
-  for (var c = 0; c < brickColumnCount; c++) {
-    for (var r = 0; r < brickRowCount; r++) {
+  for (var c = 0; c < brickRowCount; c++) {
+    for (var r = 0; r < brickColumnCount; r++) {
       if (bricks[c][r].status == 1) {
         var brickX = r * brickWidth + brickOffsetLeft;
-        var brickY = (brickColumnCount - 1 - c) * brickHeight + brickOffsetTop;
+        var brickY = (brickRowCount - 1 - c) * brickHeight + brickOffsetTop;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
         ctx.beginPath();
@@ -493,18 +493,18 @@ function drawBricks() {
   }
 }
 
-function setBrickColumnCount() {
+function setbrickRowCount() {
   randomIndexArray = random();
 
-  bricks[brickColumnCount] = [];
-  for (var r = 0; r < brickRowCount; r++) {
+  bricks[brickRowCount] = [];
+  for (var r = 0; r < brickColumnCount; r++) {
     if (randomIndexArray.indexOf(r) > 0) {
-      bricks[brickColumnCount][r] = new Brick(1);
+      bricks[brickRowCount][r] = new Brick(1);
     } else {
-      bricks[brickColumnCount][r] = new Brick(0);
+      bricks[brickRowCount][r] = new Brick(0);
     }
   }
-  brickColumnCount++;
+  brickRowCount++;
 }
 
 // 몬스터 게이지 그리기
@@ -666,8 +666,8 @@ function draw() {
   }
 
   max = 0;
-  for (c = 0; c < brickColumnCount; c++) {
-    for (r = 0; r < brickRowCount; r++) {
+  for (c = 0; c < brickRowCount; c++) {
+    for (r = 0; r < brickColumnCount; r++) {
       if (bricks[c][r].status == 1) {
         temp = bricks[c][r].y;
         if (temp > max) {
