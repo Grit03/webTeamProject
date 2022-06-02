@@ -292,13 +292,13 @@ function brickInitialize() {
   brickSpeedIter = 0;
   effects = [];
   bricks = [];
-  for (var c = 0; c < brickRowCount; c++) {
-    bricks[c] = [];
-    for (var r = 0; r < brickColumnCount; r++) {
-      if (randomIndexArray.indexOf(r) > 0) {
-        bricks[c][r] = new Brick(1);
+  for (var row = 0; row < brickRowCount; row++) {
+    bricks[row] = [];
+    for (var col = 0; col < brickColumnCount; col++) {
+      if (randomIndexArray.indexOf(col) > 0) {
+        bricks[row][col] = new Brick(1);
       } else {
-        bricks[c][r] = new Brick(0);
+        bricks[row][col] = new Brick(0);
       }
     }
   }
@@ -309,7 +309,7 @@ function random() {
   var randomIndexArray = [];
   var randomCount = Math.floor(Math.random() * (brickColumnCount - 3) + 2);
   for (var i = 0; i < randomCount; i++) {
-    var randomNum = Math.floor(Math.random() * (brickColumnCount + 1));
+    var randomNum = Math.floor(Math.random() * (brickColumnCount));
     if (randomIndexArray.indexOf(randomNum) === -1) {
       randomIndexArray.push(randomNum);
     } else {
@@ -376,9 +376,9 @@ function collisionDetection() {
     }
   }
 
-  for (var c = 0; c < brickRowCount; c++) {
-    for (var r = 0; r < brickColumnCount; r++) {
-      var b = bricks[c][r];
+  for (var row = 0; row < brickRowCount; row++) {
+    for (var col = 0; col < brickColumnCount; col++) {
+      var b = bricks[row][col];
       if (b.status == 1) {
         // 박스에 맞을 때
         if (
@@ -468,25 +468,25 @@ function drawBricks() {
   if (timeId % brickSpeed === 0) {
     setbrickRowCount();
   }
-  for (var c = 0; c < brickRowCount; c++) {
-    for (var r = 0; r < brickColumnCount; r++) {
-      if (bricks[c][r].status == 1) {
-        var brickX = r * brickWidth + brickOffsetLeft;
-        var brickY = (brickRowCount - 1 - c) * brickHeight + brickOffsetTop;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
+  for (var row = 0; row < brickRowCount; row++) {
+    for (var col = 0; col < brickColumnCount; col++) {
+      if (bricks[row][col].status == 1) {
+        var brickX = col * brickWidth + brickOffsetLeft;
+        var brickY = (brickRowCount - 1 - row) * brickHeight + brickOffsetTop;
+        bricks[row][col].x = brickX;
+        bricks[row][col].y = brickY;
         ctx.beginPath();
         ctx.drawImage(
-          bricks[c][r].brickImage,
-          bricks[c][r].x,
-          bricks[c][r].y,
+          bricks[row][col].brickImage,
+          bricks[row][col].x,
+          bricks[row][col].y,
           50,
           50
         );
         ctx.closePath();
       } else {
-        if (bricks[c][r].item.y != 0) {
-          bricks[c][r].itemFall();
+        if (bricks[row][col].item.y != 0) {
+          bricks[row][col].itemFall();
         }
       }
     }
@@ -497,11 +497,11 @@ function setbrickRowCount() {
   randomIndexArray = random();
 
   bricks[brickRowCount] = [];
-  for (var r = 0; r < brickColumnCount; r++) {
-    if (randomIndexArray.indexOf(r) > 0) {
-      bricks[brickRowCount][r] = new Brick(1);
+  for (var col = 0; col < brickColumnCount; col++) {
+    if (randomIndexArray.indexOf(col) > 0) {
+      bricks[brickRowCount][col] = new Brick(1);
     } else {
-      bricks[brickRowCount][r] = new Brick(0);
+      bricks[brickRowCount][col] = new Brick(0);
     }
   }
   brickRowCount++;
@@ -666,10 +666,10 @@ function draw() {
   }
 
   max = 0;
-  for (c = 0; c < brickRowCount; c++) {
-    for (r = 0; r < brickColumnCount; r++) {
-      if (bricks[c][r].status == 1) {
-        temp = bricks[c][r].y;
+  for (row = 0; row < brickRowCount; row++) {
+    for (col = 0; col < brickColumnCount; col++) {
+      if (bricks[row][col].status == 1) {
+        temp = bricks[row][col].y;
         if (temp > max) {
           max = temp;
         }
