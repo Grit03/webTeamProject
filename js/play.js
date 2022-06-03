@@ -136,7 +136,7 @@ function monsterInitializer(monster) {
   });
 }
 
-// 이미지 클래스
+// 아이템 클래스
 class Item {
   constructor() {
     var randomPosition = Math.floor(Math.random() * 10) + 1;
@@ -220,21 +220,23 @@ class Brick {
         case 0:
           // 코인 먹었을 때
           this.item.soundEffect.play();
-          ballIter = 2;
           score += 5;
           break;
         case 1:
+          // 빨간 포션
           this.item.soundEffect.play();
           if (lives < 5) {
             lives++;
           }
           break;
         case 2:
+          // 파란 포션
           this.item.soundEffect.play();
           ballIter = 2;
           ballRadius = ballRadiusDefault * 2;
           break;
         case 3:
+          // 흰 포션
           this.item.soundEffect.play();
           brickSpeedIter = 2;
           brickSpeed = 900;
@@ -350,10 +352,6 @@ function mouseMoveHandler(e) {
 function collisionDetection() {
   if (y <= monsterLifeGageBar.barBottomY + ballRadius) {
     dy = -dy;
-    var bricksStartLocation = (canvas.width - brickWidth * 7) / 2;
-    // // 벽돌 범위 내의 x 좌표를 가지는 바를 맞추면 몬스터 게이지 감소
-    // if (x >= bricksStartLocation && x <= bricksStartLocation + brickWidth * 7) {
-    // }
     monsterLifeGageBar.width = monsterLifeGageBar.width - attack_damage;
     hitImpact.play();
     monster.hit = true;
@@ -448,8 +446,6 @@ function drawBall() {
     ballRadius * 2,
     ballRadius * 2
   );
-  // ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  // ctx.fillStyle = "#0095DD";
   ctx.fill();
   ctx.closePath();
 }
